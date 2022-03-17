@@ -1,0 +1,1332 @@
+﻿{
+  "paragraphs": [
+    {
+      "text": "%md\n\n## ETL in Zeppelin\n\nReal-world datasets are often large-scale, complex and dirty. The schema of a dataset can be convoluted and/or poorly documented so that you have to inspect the dataset and find out its structure by yourself. When you are developing a pipeline for real-world datasets, it will save you a lot of time to run the transformations on the dataset (or a subset of it) step by step and inspect the intermediate results of each stage. Zeppelin is a great tool for exploring a new dataset and prototyping ETL pipelines. In this section, you will be running ETL of a Yelp restaurant review dataset. We are providing you with a Zeppelin notebook. You can follow the instruction in the notebook and explore it. Feel free to make changes to expand your skills.\n",
+      "user": "anonymous",
+      "dateUpdated": "2019-02-25T10:32:06+0000",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<h2>ETL in Zeppelin</h2>\n<p>Real-world datasets are often large-scale, complex and dirty. The schema of a dataset can be convoluted and/or poorly documented so that you have to inspect the dataset and find out its structure by yourself. When you are developing a pipeline for real-world datasets, it will save you a lot of time to run the transformations on the dataset (or a subset of it) step by step and inspect the intermediate results of each stage. Zeppelin is a great tool for exploring a new dataset and prototyping ETL pipelines. In this section, you will be running ETL of a Yelp restaurant review dataset. We are providing you with a Zeppelin notebook. You can follow the instruction in the notebook and explore it. Feel free to make changes to expand your skills.</p>\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1549593590780_-998988647",
+      "id": "20190207-054048_1222732521",
+      "dateCreated": "2019-02-08T02:39:50+0000",
+      "dateStarted": "2019-02-25T10:32:06+0000",
+      "dateFinished": "2019-02-25T10:32:06+0000",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500,
+      "focus": true,
+      "$$hashKey": "object:267"
+    },
+    {
+      "text": "%md\n\nWe first read a review dataset and a business dataset from gcloud storage. The dataset is in JSON format, and Spark natively supports reading JSON as a Spark DataFrame. This is the E step in ETL.\nIf you are running a test against a large data set, you may want to take a look at the `.sample` RDD function.",
+      "user": "anonymous",
+      "dateUpdated": "2019-02-25T10:32:34+0000",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>We first read a review dataset and a business dataset from gcloud storage. The dataset is in JSON format, and Spark natively supports reading JSON as a Spark DataFrame. This is the E step in ETL.<br/>If you are running a test against a large data set, you may want to take a look at the <code>.sample</code> RDD function.</p>\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1549593590789_1423667325",
+      "id": "20190207-054200_1917565259",
+      "dateCreated": "2019-02-08T02:39:50+0000",
+      "dateStarted": "2019-02-25T10:32:34+0000",
+      "dateFinished": "2019-02-25T10:32:34+0000",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500,
+      "$$hashKey": "object:268"
+    },
+    {
+      "text": "val review = spark.read.json(\"gs://cmucc-public/dataset/zeppelin_primer_yelp_review/yelp_academic_dataset_review.json\").cache\nval business = spark.read.json(\"gs://cmucc-public/dataset/zeppelin_primer_yelp_review/yelp_academic_dataset_business.json\").cache",
+      "user": "anonymous",
+      "dateUpdated": "2019-02-25T19:51:04+0000",
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "business: org.apache.spark.sql.Dataset[org.apache.spark.sql.Row] = [address: string, attributes: struct<AcceptsInsurance: string, AgesAllowed: string ... 37 more fields> ... 12 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1549593590789_239262092",
+      "id": "20190201-190834_1810960817",
+      "dateCreated": "2019-02-08T02:39:50+0000",
+      "dateStarted": "2019-02-25T19:50:31+0000",
+      "dateFinished": "2019-02-25T19:50:45+0000",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500,
+      "$$hashKey": "object:269",
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            "http://zeppelin-primer-m.us-east1-b.c.zeppelin-primer.internal:4040/jobs/job?id=0"
+          ],
+          "interpreterSettingId": "spark"
+        }
+      }
+    },
+    {
+      "text": "%md \nWe can use the `printSchema` function to print the structure of a DataFrame. This can be very helpful in dealing with new datasets. ",
+      "user": "anonymous",
+      "dateUpdated": "2019-02-25T10:32:59+0000",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>We can use the <code>printSchema</code> function to print the structure of a DataFrame. This can be very helpful in dealing with new datasets.</p>\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1549593590790_-1278164510",
+      "id": "20190207-054237_1124337186",
+      "dateCreated": "2019-02-08T02:39:50+0000",
+      "dateStarted": "2019-02-25T10:32:59+0000",
+      "dateFinished": "2019-02-25T10:32:59+0000",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500,
+      "$$hashKey": "object:270"
+    },
+    {
+      "text": "business.printSchema",
+      "user": "anonymous",
+      "dateUpdated": "2019-02-08T02:39:50+0000",
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "root\n |-- address: string (nullable = true)\n |-- attributes: struct (nullable = true)\n |    |-- AcceptsInsurance: string (nullable = true)\n |    |-- AgesAllowed: string (nullable = true)\n |    |-- Alcohol: string (nullable = true)\n |    |-- Ambience: string (nullable = true)\n |    |-- BYOB: string (nullable = true)\n |    |-- BYOBCorkage: string (nullable = true)\n |    |-- BestNights: string (nullable = true)\n |    |-- BikeParking: string (nullable = true)\n |    |-- BusinessAcceptsBitcoin: string (nullable = true)\n |    |-- BusinessAcceptsCreditCards: string (nullable = true)\n |    |-- BusinessParking: string (nullable = true)\n |    |-- ByAppointmentOnly: string (nullable = true)\n |    |-- Caters: string (nullable = true)\n |    |-- CoatCheck: string (nullable = true)\n |    |-- Corkage: string (nullable = true)\n |    |-- DietaryRestrictions: string (nullable = true)\n |    |-- DogsAllowed: string (nullable = true)\n |    |-- DriveThru: string (nullable = true)\n |    |-- GoodForDancing: string (nullable = true)\n |    |-- GoodForKids: string (nullable = true)\n |    |-- GoodForMeal: string (nullable = true)\n |    |-- HairSpecializesIn: string (nullable = true)\n |    |-- HappyHour: string (nullable = true)\n |    |-- HasTV: string (nullable = true)\n |    |-- Music: string (nullable = true)\n |    |-- NoiseLevel: string (nullable = true)\n |    |-- Open24Hours: string (nullable = true)\n |    |-- OutdoorSeating: string (nullable = true)\n |    |-- RestaurantsAttire: string (nullable = true)\n |    |-- RestaurantsCounterService: string (nullable = true)\n |    |-- RestaurantsDelivery: string (nullable = true)\n |    |-- RestaurantsGoodForGroups: string (nullable = true)\n |    |-- RestaurantsPriceRange2: string (nullable = true)\n |    |-- RestaurantsReservations: string (nullable = true)\n |    |-- RestaurantsTableService: string (nullable = true)\n |    |-- RestaurantsTakeOut: string (nullable = true)\n |    |-- Smoking: string (nullable = true)\n |    |-- WheelchairAccessible: string (nullable = true)\n |    |-- WiFi: string (nullable = true)\n |-- business_id: string (nullable = true)\n |-- categories: string (nullable = true)\n |-- city: string (nullable = true)\n |-- hours: struct (nullable = true)\n |    |-- Friday: string (nullable = true)\n |    |-- Monday: string (nullable = true)\n |    |-- Saturday: string (nullable = true)\n |    |-- Sunday: string (nullable = true)\n |    |-- Thursday: string (nullable = true)\n |    |-- Tuesday: string (nullable = true)\n |    |-- Wednesday: string (nullable = true)\n |-- is_open: long (nullable = true)\n |-- latitude: double (nullable = true)\n |-- longitude: double (nullable = true)\n |-- name: string (nullable = true)\n |-- neighborhood: string (nullable = true)\n |-- postal_code: string (nullable = true)\n |-- review_count: long (nullable = true)\n |-- stars: double (nullable = true)\n |-- state: string (nullable = true)\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1549593590790_705942435",
+      "id": "20190201-193453_246411665",
+      "dateCreated": "2019-02-08T02:39:50+0000",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500,
+      "$$hashKey": "object:271"
+    },
+    {
+      "text": "review.printSchema",
+      "user": "anonymous",
+      "dateUpdated": "2019-02-08T02:39:50+0000",
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "root\n |-- business_id: string (nullable = true)\n |-- cool: long (nullable = true)\n |-- date: string (nullable = true)\n |-- funny: long (nullable = true)\n |-- review_id: string (nullable = true)\n |-- stars: long (nullable = true)\n |-- text: string (nullable = true)\n |-- useful: long (nullable = true)\n |-- user_id: string (nullable = true)\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1549593590791_1920325428",
+      "id": "20190201-192722_558711456",
+      "dateCreated": "2019-02-08T02:39:50+0000",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500,
+      "$$hashKey": "object:272"
+    },
+    {
+      "text": "%md \nNow the DataFrames have many fields, but suppose we are only interested in the average stars (ratings) and average review length for a restaurant in the review Dataframe. We need to filter other columns and compute the average of the review length and ratings. This is the Transform step in ETL. \n",
+      "user": "anonymous",
+      "dateUpdated": "2019-02-25T10:33:17+0000",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>Now the DataFrames have many fields, but suppose we are only interested in the average stars (ratings) and average review length for a restaurant in the review Dataframe. We need to filter other columns and compute the average of the review length and ratings. This is the Transform step in ETL.</p>\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1549593590792_-1121050217",
+      "id": "20190207-054319_1053221561",
+      "dateCreated": "2019-02-08T02:39:50+0000",
+      "dateStarted": "2019-02-25T10:33:18+0000",
+      "dateFinished": "2019-02-25T10:33:18+0000",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500,
+      "$$hashKey": "object:273"
+    },
+    {
+      "text": "val avg_review = review.withColumn(\"review_length\", length($\"text\")).\n                        groupBy(\"business_id\").avg(\"review_length\", \"stars\").\n                        withColumnRenamed(\"avg(review_length)\", \"avg_review_length\").\n                        withColumnRenamed(\"avg(stars)\", \"avg_stars\")",
+      "user": "anonymous",
+      "dateUpdated": "2019-02-08T02:42:23+0000",
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "avg_review: org.apache.spark.sql.DataFrame = [business_id: string, avg_review_length: double ... 1 more field]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1549593590792_495211614",
+      "id": "20190201-194146_1448965248",
+      "dateCreated": "2019-02-08T02:39:50+0000",
+      "dateStarted": "2019-02-08T02:42:23+0000",
+      "dateFinished": "2019-02-08T02:42:24+0000",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500,
+      "$$hashKey": "object:274"
+    },
+    {
+      "text": " %md\n Now suppose we are also interested in the restaurant name, whether it has wifi and the number of reviews. Since these fields are stored in the business Dataframe, we need to join the transformed review Dataframe with the business Dataframe and filter irrelevant fields.",
+      "user": "anonymous",
+      "dateUpdated": "2019-02-25T10:33:49+0000",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>Now suppose we are also interested in the restaurant name, whether it has wifi and the number of reviews. Since these fields are stored in the business Dataframe, we need to join the transformed review Dataframe with the business Dataframe and filter irrelevant fields.</p>\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1549593590792_-1684399225",
+      "id": "20190207-054411_1691962159",
+      "dateCreated": "2019-02-08T02:39:50+0000",
+      "dateStarted": "2019-02-25T10:33:49+0000",
+      "dateFinished": "2019-02-25T10:33:49+0000",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500,
+      "$$hashKey": "object:275"
+    },
+    {
+      "text": "val biz_review = business.join(avg_review, business.col(\"business_id\") === review.col(\"business_id\"), \"left\").\n     select($\"avg_review_length\", $\"name\", $\"review_count\", $\"attributes.WiFi\", $\"avg_stars\")",
+      "user": "anonymous",
+      "dateUpdated": "2019-02-08T02:42:28+0000",
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "biz_review: org.apache.spark.sql.DataFrame = [avg_review_length: double, name: string ... 3 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1549593590793_1937427359",
+      "id": "20190201-192832_669927889",
+      "dateCreated": "2019-02-08T02:39:50+0000",
+      "dateStarted": "2019-02-08T02:42:28+0000",
+      "dateFinished": "2019-02-08T02:42:29+0000",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500,
+      "$$hashKey": "object:276"
+    },
+    {
+      "text": "biz_review.printSchema",
+      "user": "anonymous",
+      "dateUpdated": "2019-02-08T02:39:50+0000",
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "root\n |-- avg_review_length: double (nullable = true)\n |-- name: string (nullable = true)\n |-- review_count: long (nullable = true)\n |-- WiFi: string (nullable = true)\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1549593590793_1509409406",
+      "id": "20190201-193908_1502350106",
+      "dateCreated": "2019-02-08T02:39:50+0000",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500,
+      "$$hashKey": "object:277"
+    },
+    {
+      "text": "%md \nA small challenge. Suppose in the `biz_review` Dataframe, we are only interested in restaurants that offer a catering service, what would you add in the Transform stage?",
+      "user": "anonymous",
+      "dateUpdated": "2019-02-25T10:33:58+0000",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>A small challenge. Suppose in the <code>biz_review</code> Dataframe, we are only interested in restaurants that offer a catering service, what would you add in the Transform stage?</p>\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1549593590794_-1618816995",
+      "id": "20190201-203746_1654835469",
+      "dateCreated": "2019-02-08T02:39:50+0000",
+      "dateStarted": "2019-02-25T10:33:58+0000",
+      "dateFinished": "2019-02-25T10:33:58+0000",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500,
+      "$$hashKey": "object:278"
+    },
+    {
+      "text": "%md\nNow that we have the dataset in a desired format, we can load the dataset in to MySQL for downstream data analytics workflow.",
+      "user": "anonymous",
+      "dateUpdated": "2019-02-08T02:49:22+0000",
+      "config": {
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true,
+        "editorHide": true,
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>Now that we have the dataset in a desired format, we can load the dataset in to MySQL for downstream data analytics workflow.</p>\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1549593590795_169032318",
+      "id": "20190207-054538_142295331",
+      "dateCreated": "2019-02-08T02:39:50+0000",
+      "dateStarted": "2019-02-08T02:49:22+0000",
+      "dateFinished": "2019-02-08T02:49:22+0000",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500,
+      "$$hashKey": "object:279"
+    },
+    {
+      "text": "import java.util.Properties\nimport java.sql.DriverManager\n\n// set credentials\nval jdbcPort = \"3306\"\nval jdbcDatabase = \"etl_db\"\nval jdbcUsername = \"etl_user\"\nval jdbcPassword = \"1234\"   // the password you set\nval jdbcHostname = \"35.196.207.95\"   // the external IP address of you MySQL DB\n\nval jdbcUrl =s\"jdbc:mysql://$jdbcHostname:$jdbcPort/$jdbcDatabase\"\n\nval driverClass = \"com.mysql.jdbc.Driver\"\nClass.forName(driverClass)  // check jdbc driver\n\n// set connection properties\nval connectionProperties = new Properties()\nconnectionProperties.put(\"user\", s\"$jdbcUsername\")\nconnectionProperties.put(\"password\", s\"$jdbcPassword\")\nconnectionProperties.setProperty(\"Driver\", driverClass)\nconnectionProperties.setProperty(\"useServerPrepStmts\", \"false\")    // take note of this configuration, and understand what it does\nconnectionProperties.setProperty(\"rewriteBatchedStatements\", \"true\")  // take note of this configuration, and understand what it does\n\n// first drop the table if it already exists\nval connection = DriverManager.getConnection(jdbcUrl, jdbcUsername, jdbcPassword)\nassert(!connection.isClosed)\nval stmt = connection.createStatement()\nstmt.executeUpdate(\"drop table if exists biz_review\")\n\n// write the dataframe to a table called \"biz_review\"\n biz_review.write.jdbc(jdbcUrl, \"biz_review\", connectionProperties)",
+      "user": "anonymous",
+      "dateUpdated": "2019-02-08T02:53:27+0000",
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "import java.util.Properties\njdbcPort: String = 3306\njdbcDatabase: String = etl_db\njdbcUsername: String = etl_user\njdbcPassword: String = 1234\njdbcHostname: String = 35.196.207.95\njdbcUrl: String = jdbc:mysql://35.196.207.95:3306/etl_db\ndriverClass: String = com.mysql.jdbc.Driver\nres18: Class[_] = class com.mysql.jdbc.Driver\nconnectionProperties: java.util.Properties = {}\nres20: Object = null\nres21: Object = null\nres22: Object = null\nres23: Object = null\nres24: Object = null\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1549593590795_-670055070",
+      "id": "20190201-203715_1373984970",
+      "dateCreated": "2019-02-08T02:39:50+0000",
+      "dateStarted": "2019-02-08T02:42:50+0000",
+      "dateFinished": "2019-02-08T02:44:00+0000",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500,
+      "$$hashKey": "object:280"
+    },
+    {
+      "text": "%md \nAfter the following block of code finishes running, log on to your MySQL database via the command line and check whether the data is actually loaded.",
+      "user": "anonymous",
+      "dateUpdated": "2019-02-25T10:34:31+0000",
+      "config": {
+        "colWidth": 12,
+        "fontSize": 9,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>After the following block of code finishes running, log on to your MySQL database via the command line and check whether the data is actually loaded.</p>\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1549593976910_-1580153302",
+      "id": "20190208-024616_590320115",
+      "dateCreated": "2019-02-08T02:46:16+0000",
+      "dateStarted": "2019-02-25T10:34:31+0000",
+      "dateFinished": "2019-02-25T10:34:31+0000",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500,
+      "$$hashKey": "object:281"
+    },
+    {
+      "text": "%sh\nmysql -h35.196.207.95 -p1234 -uetl_user -e 'use etl_db; select * from biz_review limit 10;'",
+      "user": "anonymous",
+      "dateUpdated": "2019-02-08T02:49:07+0000",
+      "config": {
+        "colWidth": 12,
+        "fontSize": 9,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "sh",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "editorMode": "ace/mode/sh"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "avg_review_length\tname\treview_count\tWiFi\tavg_stars\n471.15555555555557\tSunnyside Grill\t45\tfree\t3.688888888888889\n483.45454545454544\tTaco Bell\t22\tfree\t3.090909090909091\n375.5\tMAC Cosmetics\t4\tNULL\t5\n382.6666666666667\tifixnmore\t3\tNULL\t5\n545.0084388185654\tLocal Loaf\t237\tfree\t3.8607594936708862\n401.1818181818182\tSubway\t11\tNULL\t3.272727272727273\n488.8349514563107\tMcAlister's Deli\t104\tno\t4.029126213592233\n198.5\tGil's zoola Hair Salon\t6\tNULL\t5\n687.6785714285714\tSkin Cabaret\t56\tNULL\t3.5535714285714284\n543.5454545454545\tMeadowbrook Park\t11\tNULL\t4.818181818181818\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1549593937649_-631718781",
+      "id": "20190208-024537_1427772728",
+      "dateCreated": "2019-02-08T02:45:37+0000",
+      "dateStarted": "2019-02-08T02:49:07+0000",
+      "dateFinished": "2019-02-08T02:49:07+0000",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500,
+      "$$hashKey": "object:282"
+    },
+    {
+      "text": "%md\n## Data Visualization in Zeppelin\n\nZeppelin has built-in tools for data visualization. For example, you can write queries against a Spark Dataframe using SQL, and display the result set in a tabular format. You can also plot histograms and a scatter plot of the result set using Zeppelin’s web interface. In this task, you will do some simple data visualization on the dataset obtained in the previous ETL process.\n",
+      "user": "anonymous",
+      "dateUpdated": "2019-02-25T10:35:03+0000",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<h2>Data Visualization in Zeppelin</h2>\n<p>Zeppelin has built-in tools for data visualization. For example, you can write queries against a Spark Dataframe using SQL, and display the result set in a tabular format. You can also plot histograms and a scatter plot of the result set using Zeppelin’s web interface. In this task, you will do some simple data visualization on the dataset obtained in the previous ETL process.</p>\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1549593590796_938231953",
+      "id": "20190207-211722_16290993",
+      "dateCreated": "2019-02-08T02:39:50+0000",
+      "dateStarted": "2019-02-25T10:35:03+0000",
+      "dateFinished": "2019-02-25T10:35:03+0000",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500,
+      "$$hashKey": "object:283"
+    },
+    {
+      "text": "%md\nThe `createOrReplaceTempView` let's you create a temporary table in Apache Spark, and you can write SQL query against the table and have the result displayed in a table in Zeppelin.",
+      "user": "anonymous",
+      "dateUpdated": "2019-02-25T10:35:08+0000",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>The <code>createOrReplaceTempView</code> let&rsquo;s you create a temporary table in Apache Spark, and you can write SQL query against the table and have the result displayed in a table in Zeppelin.</p>\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1549593590796_-1339150746",
+      "id": "20190207-212052_1969040128",
+      "dateCreated": "2019-02-08T02:39:50+0000",
+      "dateStarted": "2019-02-25T10:35:08+0000",
+      "dateFinished": "2019-02-25T10:35:08+0000",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500,
+      "$$hashKey": "object:284"
+    },
+    {
+      "text": "biz_review.createOrReplaceTempView(\"review\")",
+      "user": "anonymous",
+      "dateUpdated": "2019-02-08T02:39:50+0000",
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "jobName": "paragraph_1549593590797_-1775254234",
+      "id": "20190201-195230_141427290",
+      "dateCreated": "2019-02-08T02:39:50+0000",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500,
+      "$$hashKey": "object:285"
+    },
+    {
+      "text": "%sql select * from review limit 10",
+      "user": "anonymous",
+      "dateUpdated": "2019-02-08T02:39:50+0000",
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/sql",
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {
+                    "columns": [
+                      {
+                        "name": "avg_review_length",
+                        "visible": true,
+                        "width": "*",
+                        "sort": {},
+                        "filters": [
+                          {}
+                        ],
+                        "pinned": ""
+                      },
+                      {
+                        "name": "name",
+                        "visible": true,
+                        "width": "*",
+                        "sort": {},
+                        "filters": [
+                          {}
+                        ],
+                        "pinned": ""
+                      },
+                      {
+                        "name": "review_count",
+                        "visible": true,
+                        "width": "*",
+                        "sort": {},
+                        "filters": [
+                          {}
+                        ],
+                        "pinned": ""
+                      },
+                      {
+                        "name": "WiFi",
+                        "visible": true,
+                        "width": "*",
+                        "sort": {
+                          "priority": 0,
+                          "direction": "desc"
+                        },
+                        "filters": [
+                          {}
+                        ],
+                        "pinned": ""
+                      }
+                    ],
+                    "scrollFocus": {},
+                    "selection": [],
+                    "grouping": {
+                      "grouping": [],
+                      "aggregations": [],
+                      "rowExpandedStates": {}
+                    },
+                    "treeView": {},
+                    "pagination": {
+                      "paginationCurrentPage": 1,
+                      "paginationPageSize": 250
+                    }
+                  },
+                  "tableColumnTypeState": {
+                    "names": {
+                      "avg_review_length": "string",
+                      "name": "string",
+                      "review_count": "string",
+                      "WiFi": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "avg_review_length\tname\treview_count\tWiFi\n801.203104786546\tDelmonico Steakhouse\t1546\tno\n784.1428571428571\tNeo-Paws International\t7\tnull\n553.3333333333334\tMcFarling Law Group\t12\tnull\n579.6666666666666\tVolvo of Mississauga\t3\tnull\n201.0\tAndre Agassi College Preparatory Academy\t3\tnull\n646.3333333333334\tWoof Wise Dog Training\t3\tnull\n365.6666666666667\tGrandiose\t3\tnull\n422.25\tStarbucks\t8\tfree\n313.3\tMcDonald's\t10\tfree\n685.3333333333334\tThe Nail Salon & Spa\t3\tnull\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1549593590798_2040418971",
+      "id": "20190201-194800_1775920070",
+      "dateCreated": "2019-02-08T02:39:50+0000",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500,
+      "$$hashKey": "object:286"
+    },
+    {
+      "text": "%md\nA small challenge. write a query to select restaurant with top ratings.",
+      "user": "anonymous",
+      "dateUpdated": "2019-02-08T02:39:50+0000",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>A small challenge. write a query to select restaurant with top ratings.</p>\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1549593590798_1547101645",
+      "id": "20190201-204044_441980885",
+      "dateCreated": "2019-02-08T02:39:50+0000",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500,
+      "$$hashKey": "object:287"
+    },
+    {
+      "text": "%md\nAdditionally, you can write a SQL query and plot the result. In the next code block, we plot the restaurant ratings against review count, and it turns out that the higher the review count, the better the ratings.",
+      "user": "anonymous",
+      "dateUpdated": "2019-02-25T10:35:35+0000",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>Additionally, you can write a SQL query and plot the result. In the next code block, we plot the restaurant ratings against review count, and it turns out that the higher the review count, the better the ratings.</p>\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1549593590799_1406023605",
+      "id": "20190207-212205_1031523498",
+      "dateCreated": "2019-02-08T02:39:50+0000",
+      "dateStarted": "2019-02-25T10:35:35+0000",
+      "dateFinished": "2019-02-25T10:35:35+0000",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500,
+      "$$hashKey": "object:288"
+    },
+    {
+      "text": "%sql select review_count, avg_stars from review where review_count < 400\n",
+      "user": "anonymous",
+      "dateUpdated": "2019-02-08T02:39:50+0000",
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/sql",
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "scatterChart",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "review_count": "string",
+                      "avg_stars": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            },
+            "helium": {}
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "review_count\tavg_stars\n7\t1.5714285714285714\n12\t3.9166666666666665\n3\t3.3333333333333335\n3\t5.0\n3\t5.0\n3\t5.0\n8\t3.5\n10\t2.0\n3\t2.6666666666666665\n23\t2.217391304347826\n3\t4.0\n72\t3.8309859154929575\n10\t4.0\n20\t3.05\n120\t3.95\n245\t4.440816326530612\n25\t4.16\n11\t2.272727272727273\n3\t2.6666666666666665\n10\t3.7\n7\t4.428571428571429\n7\t5.0\n25\t3.96\n70\t3.5714285714285716\n8\t4.0\n7\t1.2857142857142858\n3\t1.3333333333333333\n30\t3.8666666666666667\n8\t3.625\n8\t2.5\n3\t1.0\n3\t3.6666666666666665\n104\t3.75\n4\t4.5\n49\t3.4693877551020407\n10\t4.2\n10\t3.1\n3\t5.0\n8\t2.5\n240\t3.2291666666666665\n12\t4.5\n17\t3.4705882352941178\n66\t2.9393939393939394\n23\t3.130434782608696\n6\t2.6666666666666665\n10\t4.6\n73\t4.123287671232877\n8\t5.0\n23\t2.652173913043478\n33\t4.0606060606060606\n392\t4.326530612244898\n9\t3.7777777777777777\n6\t4.333333333333333\n22\t1.9090909090909092\n4\t5.0\n16\t4.125\n5\t4.2\n8\t5.0\n15\t4.133333333333334\n3\t2.6666666666666665\n71\t2.619718309859155\n7\t5.0\n8\t2.5\n10\t4.6\n33\t1.7272727272727273\n4\t3.75\n6\t5.0\n4\t3.75\n4\t4.0\n3\t1.0\n4\t4.75\n8\t2.25\n13\t5.0\n7\t4.428571428571429\n6\t5.0\n3\t2.3333333333333335\n16\t3.3125\n7\t3.5714285714285716\n27\t4.222222222222222\n30\t3.9\n13\t4.6923076923076925\n10\t4.2\n35\t2.2\n5\t4.2\n4\t2.0\n334\t4.467065868263473\n4\t3.75\n8\t3.875\n5\t4.8\n128\t4.6328125\n51\t4.8431372549019605\n3\t3.3333333333333335\n61\t3.721311475409836\n6\t4.166666666666667\n13\t3.076923076923077\n56\t3.857142857142857\n13\t5.0\n10\t1.8\n3\t3.3333333333333335\n4\t4.5\n5\t1.6\n6\t4.666666666666667\n13\t2.3076923076923075\n3\t2.6666666666666665\n4\t2.25\n4\t1.0\n3\t4.666666666666667\n5\t4.0\n11\t3.727272727272727\n20\t3.0\n6\t4.0\n3\t3.0\n3\t1.0\n17\t3.3529411764705883\n28\t2.5714285714285716\n13\t5.0\n6\t5.0\n8\t2.75\n14\t3.9285714285714284\n205\t4.004878048780488\n3\t1.0\n19\t1.5789473684210527\n3\t4.333333333333333\n4\t3.0\n15\t4.2\n30\t3.6333333333333333\n16\t4.5\n22\t4.409090909090909\n3\t4.666666666666667\n6\t5.0\n6\t4.333333333333333\n20\t3.65\n27\t2.740740740740741\n19\t5.0\n3\t5.0\n4\t5.0\n8\t5.0\n28\t2.1785714285714284\n4\t3.75\n5\t3.6\n108\t3.3425925925925926\n9\t4.666666666666667\n3\t2.3333333333333335\n12\t3.9166666666666665\n58\t4.172413793103448\n4\t4.75\n4\t3.75\n14\t4.571428571428571\n3\t4.666666666666667\n54\t1.5740740740740742\n12\t3.5833333333333335\n6\t3.0\n11\t2.1818181818181817\n4\t2.25\n54\t3.537037037037037\n3\t3.3333333333333335\n7\t2.5714285714285716\n3\t2.0\n18\t4.722222222222222\n3\t3.6666666666666665\n23\t4.043478260869565\n4\t5.0\n69\t3.260869565217391\n15\t1.9333333333333333\n8\t3.0\n3\t2.3333333333333335\n3\t3.3333333333333335\n16\t3.4375\n3\t5.0\n17\t5.0\n4\t3.75\n37\t4.891891891891892\n3\t5.0\n127\t3.5511811023622046\n13\t5.0\n6\t2.8333333333333335\n3\t1.6666666666666667\n5\t5.0\n18\t4.555555555555555\n7\t4.285714285714286\n79\t3.4556962025316458\n4\t3.75\n13\t3.6923076923076925\n27\t3.925925925925926\n6\t3.6666666666666665\n3\t5.0\n13\t3.3076923076923075\n4\t1.0\n3\t5.0\n3\t1.3333333333333333\n39\t3.7948717948717947\n4\t3.0\n11\t4.363636363636363\n11\t2.090909090909091\n162\t3.746913580246914\n12\t2.75\n24\t4.041666666666667\n18\t4.611111111111111\n3\t2.0\n12\t2.75\n7\t2.5714285714285716\n15\t3.533333333333333\n12\t5.0\n111\t3.81981981981982\n3\t3.3333333333333335\n23\t4.173913043478261\n3\t4.0\n22\t4.818181818181818\n8\t3.5\n11\t4.818181818181818\n28\t3.25\n8\t3.375\n24\t4.541666666666667\n4\t4.75\n17\t2.176470588235294\n4\t4.0\n71\t4.225352112676056\n7\t1.1428571428571428\n5\t3.2\n29\t4.517241379310345\n3\t2.3333333333333335\n7\t3.857142857142857\n7\t3.7142857142857144\n8\t3.375\n4\t5.0\n32\t3.15625\n7\t3.7142857142857144\n19\t3.789473684210526\n52\t2.843137254901961\n19\t2.526315789473684\n5\t1.2\n7\t1.7142857142857142\n5\t5.0\n12\t5.0\n3\t3.3333333333333335\n63\t3.5714285714285716\n3\t3.0\n16\t3.6875\n119\t3.546218487394958\n3\t5.0\n290\t4.106896551724138\n3\t3.6666666666666665\n9\t4.444444444444445\n131\t4.152671755725191\n21\t4.809523809523809\n3\t3.0\n8\t2.0\n8\t4.25\n17\t3.411764705882353\n3\t4.333333333333333\n5\t4.2\n3\t3.6666666666666665\n15\t2.466666666666667\n10\t3.8\n23\t3.739130434782609\n3\t2.3333333333333335\n17\t4.647058823529412\n5\t5.0\n42\t2.2142857142857144\n23\t1.9565217391304348\n3\t1.3333333333333333\n5\t3.6\n20\t4.7\n5\t2.8\n188\t3.643617021276596\n12\t3.0833333333333335\n8\t1.0\n53\t3.981132075471698\n25\t3.08\n298\t4.060402684563758\n4\t5.0\n3\t1.6666666666666667\n63\t4.578125\n74\t4.891891891891892\n3\t3.6666666666666665\n125\t3.096\n9\t5.0\n111\t4.954545454545454\n81\t3.3209876543209877\n32\t3.125\n9\t4.777777777777778\n6\t1.1666666666666667\n3\t3.3333333333333335\n15\t4.933333333333334\n7\t2.7142857142857144\n3\t3.6666666666666665\n29\t4.103448275862069\n6\t4.833333333333333\n18\t5.0\n113\t3.4601769911504423\n3\t2.6666666666666665\n4\t5.0\n17\t2.6470588235294117\n34\t4.0588235294117645\n3\t4.0\n21\t3.9523809523809526\n7\t4.142857142857143\n13\t2.076923076923077\n45\t4.111111111111111\n4\t5.0\n6\t5.0\n11\t2.3636363636363638\n27\t2.3703703703703702\n13\t1.6153846153846154\n3\t4.666666666666667\n10\t3.7\n7\t2.2857142857142856\n8\t1.5\n3\t3.0\n10\t2.6\n69\t4.942028985507246\n12\t2.0833333333333335\n26\t4.384615384615385\n3\t2.0\n34\t4.529411764705882\n21\t2.9523809523809526\n113\t3.265486725663717\n17\t5.0\n21\t4.0476190476190474\n9\t2.5555555555555554\n4\t3.25\n299\t4.156666666666666\n74\t4.216216216216216\n3\t4.666666666666667\n17\t3.3529411764705883\n11\t3.1818181818181817\n14\t3.7142857142857144\n3\t3.0\n10\t4.3\n3\t2.3333333333333335\n6\t4.166666666666667\n5\t5.0\n6\t5.0\n33\t4.454545454545454\n12\t3.8333333333333335\n3\t2.0\n8\t2.875\n205\t4.568627450980392\n38\t3.973684210526316\n28\t1.6071428571428572\n18\t4.055555555555555\n3\t5.0\n135\t3.585185185185185\n8\t3.125\n3\t4.0\n80\t3.3625\n5\t2.4\n3\t2.3333333333333335\n25\t3.6\n63\t3.3174603174603177\n11\t4.909090909090909\n3\t5.0\n7\t2.2857142857142856\n3\t1.0\n5\t1.8\n5\t2.8\n181\t3.1767955801104972\n3\t3.0\n5\t3.0\n9\t2.4444444444444446\n3\t5.0\n8\t4.0\n4\t4.5\n7\t2.5714285714285716\n38\t3.8947368421052633\n3\t1.0\n5\t5.0\n16\t4.3125\n3\t1.0\n4\t4.5\n57\t3.192982456140351\n17\t2.235294117647059\n158\t4.031645569620253\n7\t4.428571428571429\n21\t3.761904761904762\n9\t4.777777777777778\n4\t3.25\n72\t3.5555555555555554\n171\t3.9127906976744184\n35\t3.7142857142857144\n12\t4.25\n22\t1.173913043478261\n5\t4.2\n296\t2.814189189189189\n11\t3.0\n7\t4.428571428571429\n39\t4.230769230769231\n3\t3.3333333333333335\n275\t4.596363636363637\n4\t4.0\n46\t4.586956521739131\n4\t2.75\n3\t5.0\n3\t1.0\n8\t5.0\n14\t3.5\n3\t3.3333333333333335\n44\t4.909090909090909\n4\t5.0\n3\t3.6666666666666665\n3\t4.666666666666667\n3\t3.6666666666666665\n7\t2.2857142857142856\n7\t4.857142857142857\n3\t3.6666666666666665\n3\t5.0\n78\t3.551282051282051\n10\t3.3\n13\t4.769230769230769\n3\t3.6666666666666665\n8\t1.375\n16\t3.4375\n12\t4.0\n3\t2.3333333333333335\n8\t4.25\n4\t4.0\n3\t2.6666666666666665\n5\t3.6\n3\t2.0\n7\t4.428571428571429\n21\t5.0\n124\t4.717741935483871\n18\t4.0\n8\t1.375\n10\t2.3\n3\t5.0\n14\t2.9285714285714284\n6\t3.5\n29\t3.9310344827586206\n129\t3.387596899224806\n5\t5.0\n65\t3.4923076923076923\n3\t4.333333333333333\n6\t3.5\n7\t1.1428571428571428\n7\t2.7142857142857144\n3\t1.0\n152\t3.2697368421052633\n62\t4.419354838709677\n8\t4.125\n3\t2.6666666666666665\n11\t5.0\n95\t3.168421052631579\n8\t1.0\n6\t3.6666666666666665\n41\t3.2439024390243905\n6\t4.5\n10\t3.7\n10\t3.7\n12\t4.583333333333333\n25\t2.36\n7\t3.7142857142857144\n54\t3.7222222222222223\n18\t2.0555555555555554\n15\t3.533333333333333\n3\t4.666666666666667\n5\t3.6\n10\t5.0\n6\t3.3333333333333335\n3\t4.0\n4\t2.0\n53\t3.7735849056603774\n9\t4.666666666666667\n27\t5.0\n4\t4.5\n18\t2.6666666666666665\n6\t2.6666666666666665\n3\t4.333333333333333\n5\t2.6\n74\t3.5405405405405403\n6\t2.0\n5\t4.0\n5\t1.8\n49\t4.1020408163265305\n3\t2.3333333333333335\n4\t4.0\n7\t2.7142857142857144\n5\t3.4\n25\t4.44\n3\t1.0\n45\t4.022222222222222\n3\t3.3333333333333335\n3\t5.0\n4\t4.25\n26\t1.4230769230769231\n3\t5.0\n9\t4.111111111111111\n3\t5.0\n19\t3.8947368421052633\n49\t3.6530612244897958\n3\t5.0\n3\t5.0\n6\t3.5\n6\t3.5\n3\t3.3333333333333335\n31\t4.516129032258065\n30\t3.066666666666667\n15\t3.933333333333333\n4\t3.5\n6\t4.333333333333333\n8\t3.625\n11\t2.090909090909091\n13\t4.0\n355\t3.6507042253521127\n4\t4.0\n35\t2.7142857142857144\n9\t4.222222222222222\n3\t5.0\n12\t5.0\n3\t3.3333333333333335\n63\t4.063492063492063\n26\t3.923076923076923\n22\t4.818181818181818\n5\t3.8\n5\t3.4\n3\t5.0\n5\t3.2\n4\t5.0\n83\t4.313253012048193\n3\t3.6666666666666665\n3\t2.0\n15\t1.9333333333333333\n5\t3.2\n4\t5.0\n25\t2.72\n3\t4.0\n8\t4.125\n101\t2.089108910891089\n13\t4.153846153846154\n22\t3.0\n45\t4.4\n94\t3.797872340425532\n3\t5.0\n3\t5.0\n5\t3.8\n3\t2.3333333333333335\n35\t3.4\n15\t4.066666666666666\n5\t4.8\n4\t5.0\n79\t3.0759493670886076\n6\t2.8333333333333335\n12\t4.833333333333333\n8\t1.375\n4\t3.25\n32\t2.03125\n125\t2.192\n7\t3.2857142857142856\n3\t2.6666666666666665\n26\t4.961538461538462\n11\t4.2727272727272725\n6\t5.0\n4\t3.0\n4\t4.0\n6\t1.6666666666666667\n14\t3.0714285714285716\n25\t3.44\n4\t4.5\n4\t2.75\n233\t1.9570815450643777\n7\t2.7142857142857144\n8\t4.0\n21\t5.0\n10\t4.0\n20\t3.15\n8\t2.0\n195\t4.428571428571429\n6\t2.8333333333333335\n5\t2.6\n11\t3.727272727272727\n18\t4.0\n15\t2.8666666666666667\n4\t4.0\n5\t3.2\n9\t3.6666666666666665\n3\t5.0\n3\t1.6666666666666667\n3\t5.0\n51\t3.843137254901961\n6\t3.1666666666666665\n3\t2.0\n23\t4.739130434782608\n8\t3.25\n16\t2.375\n3\t4.666666666666667\n6\t3.0\n99\t3.6161616161616164\n5\t4.2\n14\t3.4285714285714284\n8\t5.0\n4\t4.75\n4\t1.75\n20\t4.35\n14\t3.2142857142857144\n14\t3.357142857142857\n3\t5.0\n65\t2.4615384615384617\n44\t3.727272727272727\n19\t4.0\n6\t1.8333333333333333\n12\t4.5\n41\t3.8780487804878048\n10\t2.9\n7\t3.5714285714285716\n26\t3.4615384615384617\n4\t5.0\n6\t5.0\n6\t5.0\n35\t3.742857142857143\n18\t1.7777777777777777\n3\t3.6666666666666665\n3\t5.0\n18\t3.5\n21\t2.6666666666666665\n4\t2.0\n3\t3.3333333333333335\n5\t3.8\n16\t3.5\n34\t1.8235294117647058\n28\t3.3461538461538463\n50\t4.52\n44\t2.0454545454545454\n4\t3.5\n3\t4.666666666666667\n3\t2.0\n3\t3.3333333333333335\n28\t3.7142857142857144\n9\t5.0\n59\t2.711864406779661\n21\t2.619047619047619\n24\t3.6666666666666665\n127\t4.062992125984252\n155\t4.245161290322581\n16\t4.625\n4\t4.0\n54\t4.333333333333333\n3\t5.0\n10\t3.7\n4\t4.25\n4\t4.0\n33\t4.242424242424242\n56\t3.5714285714285716\n10\t3.2\n52\t3.980769230769231\n4\t4.25\n5\t3.2\n13\t3.230769230769231\n3\t1.0\n10\t5.0\n5\t3.8\n3\t3.6666666666666665\n10\t2.2\n3\t2.3333333333333335\n8\t4.125\n17\t2.3529411764705883\n18\t4.833333333333333\n5\t4.6\n45\t3.533333333333333\n5\t3.2\n60\t3.35\n10\t4.6\n12\t4.083333333333333\n4\t5.0\n6\t4.166666666666667\n6\t4.0\n7\t3.5714285714285716\n13\t4.6923076923076925\n4\t3.75\n215\t4.3534883720930235\n33\t4.606060606060606\n24\t3.875\n12\t4.916666666666667\n14\t3.642857142857143\n3\t4.666666666666667\n22\t3.409090909090909\n34\t2.7941176470588234\n32\t4.3125\n66\t3.378787878787879\n12\t5.0\n7\t4.571428571428571\n3\t2.3333333333333335\n7\t4.571428571428571\n3\t5.0\n44\t2.6818181818181817\n4\t3.25\n17\t5.0\n53\t3.5660377358490565\n3\t5.0\n8\t2.125\n9\t1.8888888888888888\n21\t4.857142857142857\n3\t3.6666666666666665\n3\t3.0\n52\t4.865384615384615\n3\t5.0\n3\t3.6666666666666665\n131\t3.6259541984732824\n13\t4.615384615384615\n4\t4.75\n3\t2.3333333333333335\n6\t4.333333333333333\n33\t3.090909090909091\n5\t3.4\n3\t3.3333333333333335\n3\t2.3333333333333335\n10\t2.6\n22\t3.090909090909091\n84\t3.130952380952381\n10\t5.0\n56\t4.357142857142857\n37\t3.5135135135135136\n3\t3.6666666666666665\n40\t2.825\n10\t2.5\n129\t3.852713178294574\n92\t4.565217391304348\n48\t5.0\n6\t3.1666666666666665\n78\t4.166666666666667\n8\t2.75\n183\t4.759562841530054\n5\t3.6\n3\t5.0\n7\t3.857142857142857\n4\t3.25\n3\t3.0\n63\t4.079365079365079\n3\t4.333333333333333\n3\t3.3333333333333335\n4\t3.5\n13\t4.846153846153846\n13\t4.461538461538462\n42\t3.9047619047619047\n89\t4.359550561797753\n5\t5.0\n6\t3.3333333333333335\n3\t2.0\n3\t5.0\n9\t3.7777777777777777\n3\t4.0\n57\t3.3157894736842106\n10\t4.7\n4\t5.0\n23\t3.608695652173913\n42\t3.1666666666666665\n3\t1.0\n9\t4.0\n7\t3.857142857142857\n44\t4.954545454545454\n3\t5.0\n18\t4.055555555555555\n3\t4.75\n10\t4.6\n20\t3.3\n98\t3.4591836734693877\n3\t5.0\n13\t3.923076923076923\n296\t4.452702702702703\n33\t5.0\n6\t1.6666666666666667\n3\t4.666666666666667\n28\t3.357142857142857\n3\t5.0\n4\t2.75\n94\t4.468085106382978\n5\t4.8\n27\t2.3333333333333335\n11\t1.5454545454545454\n66\t4.03030303030303\n127\t3.7244094488188977\n4\t5.0\n94\t4.98936170212766\n4\t2.0\n4\t5.0\n3\t4.666666666666667\n30\t4.133333333333334\n7\t5.0\n61\t4.80327868852459\n35\t4.0\n3\t1.6666666666666667\n32\t2.96875\n8\t3.375\n9\t3.3333333333333335\n6\t3.8333333333333335\n393\t3.3155216284987277\n13\t3.4615384615384617\n3\t5.0\n9\t1.4444444444444444\n18\t2.388888888888889\n15\t4.2\n16\t2.0\n5\t3.6\n8\t5.0\n3\t1.3333333333333333\n3\t5.0\n6\t5.0\n44\t2.977272727272727\n3\t3.6666666666666665\n25\t3.88\n3\t1.6666666666666667\n8\t3.0\n89\t3.606741573033708\n8\t2.125\n13\t5.0\n3\t3.0\n7\t4.714285714285714\n26\t3.4615384615384617\n70\t3.3043478260869565\n6\t5.0\n3\t5.0\n3\t5.0\n4\t4.0\n40\t3.5\n24\t4.541666666666667\n54\t3.759259259259259\n4\t3.25\n47\t3.891304347826087\n4\t3.5\n4\t4.0\n3\t2.0\n6\t4.333333333333333\n97\t3.0103092783505154\n5\t2.4\n55\t3.2545454545454544\n23\t3.3043478260869565\n5\t4.8\n3\t5.0\n3\t3.3333333333333335\n154\t4.811688311688312\n17\t4.588235294117647\n43\t3.813953488372093\n8\t4.25\n26\t4.846153846153846\n20\t2.3\n6\t3.8333333333333335\n41\t4.439024390243903\n15\t2.6\n4\t3.0\n15\t3.0\n6\t3.0\n8\t4.375\n18\t1.3888888888888888\n49\t2.5306122448979593\n7\t3.142857142857143\n17\t3.2941176470588234\n13\t3.4615384615384617\n25\t3.76\n4\t4.75\n4\t3.0\n3\t4.333333333333333\n4\t5.0\n8\t2.75\n142\t2.788732394366197\n15\t2.2666666666666666\n4\t2.0\n5\t5.0\n351\t3.1253561253561255\n73\t3.712328767123288\n10\t4.6\n41\t4.341463414634147\n6\t3.1666666666666665\n3\t2.3333333333333335\n20\t5.0\n26\t4.0\n33\t3.3636363636363638\n37\t4.8108108108108105\n9\t1.5555555555555556\n4\t3.25\n17\t3.0\n5\t4.0\n3\t2.3333333333333335\n9\t5.0\n5\t3.0\n38\t2.3947368421052633\n4\t3.0\n25\t4.12\n10\t1.8\n4\t4.0\n10\t4.2\n30\t2.3333333333333335\n3\t5.0\n3\t1.0\n4\t3.0\n42\t4.333333333333333\n18\t2.7222222222222223\n3\t3.0\n5\t5.0\n15\t4.466666666666667\n3\t2.0\n22\t4.181818181818182\n5\t4.2\n3\t3.6666666666666665\n47\t3.8297872340425534\n13\t3.5384615384615383\n23\t3.217391304347826\n6\t3.0\n40\t2.825\n13\t4.230769230769231\n5\t3.6\n29\t4.413793103448276\n3\t3.6666666666666665\n25\t2.56\n41\t3.1707317073170733\n37\t4.621621621621622\n65\t4.246153846153846\n16\t3.25\n10\t4.6\n11\t3.5454545454545454\n3\t2.6666666666666665\n8\t4.375\n25\t2.6\n5\t3.6\n9\t1.8888888888888888\n4\t1.5\n48\t4.333333333333333\n7\t4.714285714285714\n10\t5.0\n4\t4.0\n96\t2.8125\n11\t4.7272727272727275\n83\t2.7590361445783134\n29\t2.793103448275862\n6\t4.666666666666667\n46\t3.630434782608696\n3\t5.0\n5\t3.6\n38\t4.552631578947368\n11\t3.090909090909091\n18\t2.3333333333333335\n4\t4.75\n5\t1.6\n6\t5.0\n6\t3.1666666666666665\n3\t4.0\n3\t2.3333333333333335\n8\t3.375\n6\t4.333333333333333\n7\t3.0\n32\t3.0606060606060606\n4\t2.75\n17\t2.2941176470588234\n8\t2.75\n25\t3.8\n69\t1.8840579710144927\n3\t5.0\n8\t3.25\n6\t4.0\n7\t2.4285714285714284\n3\t4.333333333333333\n7\t2.4285714285714284\n7\t3.2857142857142856\n32\t2.375\n3\t2.3333333333333335\n6\t4.333333333333333\n20\t4.65\n132\t3.712121212121212\n13\t4.538461538461538\n33\t3.8484848484848486\n3\t5.0\n54\t4.425925925925926\n9\t2.5555555555555554\n5\t2.8\n9\t5.0\n191\t3.764397905759162\n95\t3.863157894736842\n15\t3.6\n30\t3.8333333333333335\n32\t2.5625\n4\t3.0\n3\t3.0\n5\t1.8\n9\t4.111111111111111\n4\t4.0\n4\t2.0\n14\t4.5\n6\t2.8333333333333335\n5\t4.0\n28\t3.5\n14\t3.0714285714285716\n4\t3.25\n5\t3.0\n13\t5.0\n3\t5.0\n30\t4.833333333333333\n11\t3.909090909090909\n3\t4.333333333333333\n48\t4.541666666666667\n29\t4.310344827586207\n9\t4.222222222222222\n10\t2.8\n3\t4.333333333333333\n9\t5.0\n4\t5.0\n8\t4.5\n9\t5.0\n16\t4.235294117647059\n8\t2.25\n15\t3.8\n7\t2.0\n51\t4.078431372549019\n"
+          },
+          {
+            "type": "HTML",
+            "data": "<div class=\"result-alert alert-warning\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button><strong>Output is truncated</strong> to 1000 rows. Learn more about <strong>zeppelin.spark.maxResult</strong></div>"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1549593590800_-1729619897",
+      "id": "20190201-195343_1301877110",
+      "dateCreated": "2019-02-08T02:39:50+0000",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500,
+      "$$hashKey": "object:289"
+    },
+    {
+      "text": "%md\nNow, we plot the restaurant ratings against average review length. Do you see any relationship between these two?",
+      "user": "anonymous",
+      "dateUpdated": "2019-02-25T10:35:57+0000",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>Now, we plot the restaurant ratings against average review length. Do you see any relationship between these two?</p>\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1549593590801_887541574",
+      "id": "20190207-212423_224757333",
+      "dateCreated": "2019-02-08T02:39:50+0000",
+      "dateStarted": "2019-02-25T10:35:57+0000",
+      "dateFinished": "2019-02-25T10:35:57+0000",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500,
+      "$$hashKey": "object:290"
+    },
+    {
+      "text": "%sql select avg_review_length, avg_stars from review where review_count > 50",
+      "user": "anonymous",
+      "dateUpdated": "2019-02-08T02:39:50+0000",
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/sql",
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "scatterChart",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "stars": "string",
+                      "avg_review_length": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            },
+            "helium": {}
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "avg_review_length\tavg_stars\n801.203104786546\t4.102846054333765\n448.61971830985914\t3.8309859154929575\n440.96666666666664\t3.95\n494.44897959183675\t4.440816326530612\n500.6142857142857\t3.5714285714285716\n545.6442307692307\t3.75\n757.6625\t3.2291666666666665\n656.9848484848485\t2.9393939393939394\n461.6164383561644\t4.123287671232877\n681.2857142857143\t4.326530612244898\n584.7746478873239\t2.619718309859155\n757.9406593406593\t2.9934065934065934\n770.2964071856287\t4.467065868263473\n436.203125\t4.6328125\n523.7254901960785\t4.8431372549019605\n631.7049180327868\t3.721311475409836\n1029.517857142857\t3.857142857142857\n570.4536585365854\t4.004878048780488\n539.9444444444445\t3.3425925925925926\n416.7931034482759\t4.172413793103448\n543.5185185185185\t1.5740740740740742\n422.01851851851853\t3.537037037037037\n952.1304347826087\t3.260869565217391\n684.7874015748032\t3.5511811023622046\n397.2151898734177\t3.4556962025316458\n588.1799544419134\t3.8405466970387243\n465.7716049382716\t3.746913580246914\n408.2882882882883\t3.81981981981982\n333.88732394366195\t4.225352112676056\n359.15686274509807\t2.843137254901961\n497.6825396825397\t3.5714285714285716\n683.8823529411765\t3.546218487394958\n603.8310344827586\t4.106896551724138\n460.5267175572519\t4.152671755725191\n640.281914893617\t3.643617021276596\n510.9622641509434\t3.981132075471698\n475.29194630872485\t4.060402684563758\n486.953125\t4.578125\n495.1756756756757\t4.891891891891892\n486.952\t3.096\n708.1871165644171\t4.1214723926380366\n343.74545454545455\t4.954545454545454\n589.5802469135803\t3.3209876543209877\n650.70796460177\t3.4601769911504423\n604.1159420289855\t4.942028985507246\n494.88495575221236\t3.265486725663717\n582.0633333333334\t4.156666666666666\n452.47297297297297\t4.216216216216216\n656.3333333333334\t4.568627450980392\n401.63703703703703\t3.585185185185185\n708.25\t3.3625\n697.1126436781609\t2.9172413793103447\n454.5079365079365\t3.3174603174603177\n691.4806629834254\t3.1767955801104972\n609.6140350877193\t3.192982456140351\n423.3101265822785\t4.031645569620253\n584.9444444444445\t3.5555555555555554\n610.0\t4.3140877598152425\n488.43023255813955\t3.9127906976744184\n574.8445945945946\t2.814189189189189\n718.0490045941807\t4.139356814701379\n555.7454545454545\t4.596363636363637\n710.7775467775468\t3.9334719334719335\n648.2692307692307\t3.551282051282051\n617.9032258064516\t4.717741935483871\n643.8139534883721\t3.387596899224806\n845.9076923076923\t3.4923076923076923\n550.7236842105264\t3.2697368421052633\n521.7903225806451\t4.419354838709677\n550.9894736842106\t3.168421052631579\n815.925925925926\t3.7222222222222223\n520.377358490566\t3.7735849056603774\n478.02702702702703\t3.5405405405405403\n851.4450704225352\t3.6507042253521127\n592.2380952380952\t4.063492063492063\n522.5542168674699\t4.313253012048193\n877.1584158415842\t2.089108910891089\n480.468085106383\t3.797872340425532\n607.8101265822785\t3.0759493670886076\n587.936\t2.192\n602.8117001828153\t3.7440585009140768\n508.24463519313304\t1.9570815450643777\n850.7091836734694\t4.428571428571429\n547.3137254901961\t3.843137254901961\n605.959595959596\t3.6161616161616164\n733.7692307692307\t2.4615384615384617\n541.8169642857143\t3.5870535714285716\n440.8813559322034\t2.711864406779661\n613.1968503937007\t4.062992125984252\n548.7161290322581\t4.245161290322581\n586.928071928072\t4.213786213786213\n976.4444444444445\t4.333333333333333\n598.7857142857143\t3.5714285714285716\n435.9807692307692\t3.980769230769231\n490.0492170022371\t4.165548098434004\n666.0833333333334\t3.35\n425.5348837209302\t4.3534883720930235\n419.1818181818182\t3.378787878787879\n534.5283018867924\t3.5660377358490565\n559.3461538461538\t4.865384615384615\n552.5419847328244\t3.6259541984732824\n341.7261904761905\t3.130952380952381\n462.82142857142856\t4.357142857142857\n574.9922480620155\t3.852713178294574\n397.64130434782606\t4.565217391304348\n406.38461538461536\t4.166666666666667\n638.0437158469946\t4.759562841530054\n389.1746031746032\t4.079365079365079\n509.2134831460674\t4.359550561797753\n763.6140350877193\t3.3157894736842106\n476.59183673469386\t3.4591836734693877\n347.8716216216216\t4.452702702702703\n395.71276595744683\t4.468085106382978\n954.560606060606\t4.03030303030303\n729.0\t3.7244094488188977\n601.9574468085107\t4.98936170212766\n421.7972027972028\t4.396270396270396\n302.5081967213115\t4.80327868852459\n735.8498727735368\t3.3155216284987277\n669.5280898876405\t3.606741573033708\n695.0869565217391\t3.3043478260869565\n461.1666666666667\t3.759259259259259\n412.5773195876289\t3.0103092783505154\n510.0181818181818\t3.2545454545454544\n385.07142857142856\t4.811688311688312\n1043.880281690141\t2.788732394366197\n622.8233618233618\t3.1253561253561255\n574.5616438356165\t3.712328767123288\n500.0153846153846\t4.246153846153846\n527.3739130434783\t2.152173913043478\n586.0833333333334\t2.8125\n554.9397590361446\t2.7590361445783134\n722.6376811594203\t1.8840579710144927\n474.6287878787879\t3.712121212121212\n686.6851851851852\t4.425925925925926\n679.5445026178011\t3.764397905759162\n464.4315789473684\t3.863157894736842\n602.3137254901961\t4.078431372549019\n655.1694915254237\t3.440677966101695\n723.9587628865979\t3.3711340206185567\n526.3582089552239\t2.955223880597015\n528.030303030303\t3.6515151515151514\n464.265625\t4.640625\n732.0192307692307\t2.5961538461538463\n435.2061855670103\t4.206185567010309\n544.8655462184873\t4.277310924369748\n746.7692307692307\t2.673076923076923\n541.8214285714286\t3.107142857142857\n500.597302504817\t4.179190751445087\n332.7769230769231\t3.8846153846153846\n623.974025974026\t2.7012987012987013\n775.8875\t2.325\n494.1256830601093\t4.136612021857924\n539.9114583333334\t3.9583333333333335\n504.35074626865674\t3.485074626865672\n481.44444444444446\t4.26984126984127\n568.410071942446\t4.129496402877698\n461.36538461538464\t3.8653846153846154\n688.0438596491229\t3.2017543859649122\n450.5073825503356\t4.323489932885906\n644.5616438356165\t2.835616438356164\n539.1845637583892\t4.077181208053691\n554.16875\t3.81875\n575.7964601769911\t3.752212389380531\n580.253164556962\t3.151898734177215\n471.07575757575756\t3.8333333333333335\n548.3913043478261\t3.0760869565217392\n412.86538461538464\t3.3461538461538463\n766.9679358717435\t4.232464929859719\n709.4628099173553\t3.7107438016528924\n457.76271186440675\t4.338983050847458\n450.7936507936508\t4.698412698412699\n409.5903614457831\t4.120481927710843\n568.0\t2.6666666666666665\n444.3225806451613\t3.881720430107527\n487.81719457013577\t4.221719457013575\n914.1597222222222\t4.138888888888889\n527.7623762376238\t4.178217821782178\n666.3333333333334\t3.108527131782946\n503.5833333333333\t2.8333333333333335\n484.4657534246575\t3.815068493150685\n397.8636363636364\t4.670454545454546\n661.8928571428571\t4.160714285714286\n585.6417910447761\t4.736318407960199\n673.6181818181818\t1.5272727272727273\n603.5978260869565\t3.6793478260869565\n560.875\t3.8035714285714284\n501.3027027027027\t4.097297297297297\n529.9941520467836\t4.549707602339181\n691.4\t4.2727272727272725\n587.5151515151515\t5.0\n843.8152866242038\t2.573248407643312\n826.6580310880829\t4.098445595854923\n767.1269841269841\t2.8095238095238093\n915.0483091787439\t3.4057971014492754\n787.8333333333334\t3.5185185185185186\n571.9379562043796\t4.153284671532846\n357.6025878003697\t4.313308687615526\n749.4746376811594\t3.568840579710145\n525.3135593220339\t3.610169491525424\n597.8736842105263\t4.278947368421052\n544.0175438596491\t4.93859649122807\n465.4315789473684\t3.557894736842105\n504.4583333333333\t3.6822916666666665\n388.21794871794873\t4.012820512820513\n619.4107142857143\t3.267857142857143\n526.9262295081967\t3.721311475409836\n435.4988662131519\t3.8639455782312924\n488.34328358208955\t4.522388059701493\n671.3993993993994\t3.003003003003003\n617.915\t3.24\n763.2325581395348\t3.697674418604651\n421.39830508474574\t4.4491525423728815\n471.09282700421943\t3.6413502109704643\n529.5280373831775\t3.7383177570093458\n709.8455284552846\t4.008130081300813\n610.1013513513514\t3.52027027027027\n401.8933333333333\t4.26\n722.6666666666666\t3.025\n638.4876033057851\t4.231404958677686\n689.6923076923077\t3.3461538461538463\n743.7191011235955\t3.157303370786517\n556.940366972477\t3.9357798165137616\n571.3132530120482\t3.963855421686747\n558.7729468599034\t4.009661835748792\n643.8703703703703\t3.611111111111111\n699.0142857142857\t4.142857142857143\n684.1830985915493\t4.169014084507042\n482.7592190889371\t4.327548806941432\n512.8874172185431\t3.80794701986755\n411.125\t4.986111111111111\n335.2692307692308\t5.0\n441.4056603773585\t5.0\n435.55357142857144\t2.875\n536.3352941176471\t3.6294117647058823\n515.1607142857143\t3.75\n481.1483679525223\t3.421364985163205\n687.587786259542\t4.190839694656488\n730.7860849056603\t3.6273584905660377\n663.4397590361446\t3.2409638554216866\n569.9242424242424\t3.8636363636363638\n571.4805194805194\t2.909090909090909\n624.4629629629629\t4.12962962962963\n446.50847457627117\t3.7457627118644066\n590.3939393939394\t3.106060606060606\n565.0655737704918\t4.475409836065574\n728.3454545454546\t3.6363636363636362\n539.7193675889328\t3.644268774703557\n434.2280701754386\t3.789473684210526\n678.1296296296297\t3.8703703703703702\n561.6796875\t2.9921875\n618.575\t2.885\n492.34615384615387\t3.4615384615384617\n421.95061728395063\t5.0\n843.9009900990098\t3.5693069306930694\n556.241935483871\t3.3225806451612905\n700.2823529411764\t3.0823529411764707\n468.99551569506724\t4.188340807174888\n547.9826589595376\t3.5722543352601157\n752.5875486381323\t3.7431906614785992\n584.1875\t2.0\n384.55357142857144\t4.053571428571429\n642.1884057971015\t3.2318840579710146\n1048.921568627451\t3.843137254901961\n522.2987012987013\t3.961038961038961\n799.6333333333333\t4.216666666666667\n875.9229685298262\t3.324095819633631\n562.2540983606557\t2.2868852459016393\n523.3368055555555\t3.1875\n1007.5208333333334\t4.416666666666667\n823.1913043478261\t3.869565217391304\n392.11607142857144\t4.375\n638.9473684210526\t3.6403508771929824\n418.64150943396226\t3.811320754716981\n385.5263157894737\t4.017543859649122\n505.3478260869565\t4.53416149068323\n614.5212765957447\t3.0106382978723403\n516.0847457627119\t3.7288135593220337\n967.3106796116505\t2.621359223300971\n468.3267716535433\t3.515748031496063\n689.3769841269841\t2.861111111111111\n400.25714285714287\t4.771428571428571\n595.4597701149426\t3.421455938697318\n596.125\t3.859375\n462.54545454545456\t3.4545454545454546\n731.9019607843137\t3.176470588235294\n511.912\t3.512\n593.6434108527131\t3.62015503875969\n449.8538205980066\t4.471760797342193\n691.3924050632911\t3.7025316455696204\n444.10227272727275\t4.159090909090909\n415.97435897435895\t4.538461538461538\n626.1176470588235\t3.4019607843137254\n608.2131147540983\t3.7868852459016393\n591.510989010989\t3.815934065934066\n483.9230769230769\t3.0384615384615383\n1134.984126984127\t4.126984126984127\n380.8223350253807\t3.8375634517766497\n768.0459770114943\t3.574712643678161\n476.0866141732283\t3.984251968503937\n369.68518518518516\t5.0\n506.98036951501155\t4.15242494226328\n511.6411764705882\t3.1058823529411765\n470.1880341880342\t3.5213675213675213\n585.2054794520548\t4.136986301369863\n581.0980392156863\t3.9607843137254903\n730.1346153846154\t3.6923076923076925\n702.3012048192771\t3.7710843373493974\n454.34736842105264\t4.168421052631579\n720.2962962962963\t2.4691358024691357\n407.61333333333334\t4.653333333333333\n994.9322033898305\t3.8728813559322033\n735.2948717948718\t3.1923076923076925\n585.2295081967213\t3.4754098360655736\n931.875\t3.642857142857143\n733.0545454545454\t4.845454545454546\n597.3356164383562\t2.9657534246575343\n537.010989010989\t4.604395604395604\n662.6346153846154\t3.3653846153846154\n456.5609756097561\t4.297560975609756\n645.6181818181818\t3.8363636363636364\n851.1975308641976\t4.228395061728395\n629.9464285714286\t3.9107142857142856\n762.179104477612\t2.9402985074626864\n714.4565217391304\t3.0144927536231885\n613.1681957186545\t3.146788990825688\n466.1604938271605\t4.962962962962963\n414.92452830188677\t3.4339622641509435\n746.9268292682926\t3.8390243902439023\n443.7238372093023\t4.609496124031008\n612.9382716049382\t3.728395061728395\n556.9354838709677\t3.967741935483871\n711.3709677419355\t2.9516129032258065\n609.2905982905983\t4.115384615384615\n391.29487179487177\t4.9743589743589745\n775.9444444444445\t3.574074074074074\n317.6082474226804\t4.43298969072165\n597.8604651162791\t3.4302325581395348\n614.8448844884489\t3.2145214521452146\n704.71875\t3.328125\n602.4736842105264\t3.1052631578947367\n839.1654929577464\t4.257042253521127\n481.0\t3.5076923076923077\n501.8317757009346\t4.130841121495327\n610.7672413793103\t3.560344827586207\n912.7515527950311\t3.658385093167702\n419.5\t3.744186046511628\n508.0489795918367\t3.7714285714285714\n519.622641509434\t1.9622641509433962\n542.1917808219179\t3.6301369863013697\n477.19191919191917\t3.888888888888889\n580.4736842105264\t4.771929824561403\n406.92413793103447\t4.006896551724138\n327.35820895522386\t4.298507462686567\n652.8426966292135\t3.808988764044944\n437.6170212765957\t4.1063829787234045\n712.2\t3.6222222222222222\n877.6081081081081\t3.77027027027027\n456.14285714285717\t3.735562310030395\n511.48\t3.42\n471.2040816326531\t3.36734693877551\n481.95045045045043\t3.7162162162162162\n903.2784090909091\t4.051136363636363\n720.8349514563107\t4.611650485436893\n386.75\t5.0\n617.7134328358209\t3.4686567164179105\n504.3137254901961\t3.803921568627451\n826.8051948051948\t3.831168831168831\n305.9922480620155\t4.945736434108527\n687.1615384615385\t3.923076923076923\n739.9268292682926\t4.08130081300813\n422.5\t4.136363636363637\n418.7\t3.88\n774.7758620689655\t4.206896551724138\n536.7647058823529\t3.4705882352941178\n522.6018518518518\t3.138888888888889\n562.3805970149253\t4.268656716417911\n506.42028985507244\t2.550724637681159\n497.2207792207792\t3.4155844155844157\n501.98591549295776\t3.5211267605633805\n299.9855072463768\t4.7101449275362315\n546.9373040752351\t3.799373040752351\n441.38655462184875\t4.142857142857143\n835.9893617021277\t2.1347517730496453\n557.8757763975156\t3.472049689440994\n742.3936170212766\t3.9680851063829787\n692.4262295081967\t4.442622950819672\n371.8076923076923\t4.480769230769231\n731.9651162790698\t3.546511627906977\n672.463556851312\t3.82798833819242\n806.1798507462687\t4.3947761194029855\n386.048275862069\t4.4\n585.635294117647\t2.996078431372549\n524.0574712643678\t3.3333333333333335\n380.68543046357615\t3.847682119205298\n878.1397849462365\t3.967741935483871\n590.364312267658\t3.657992565055762\n467.3098591549296\t3.3098591549295775\n662.3134328358209\t4.485074626865671\n645.0714285714286\t3.6964285714285716\n552.7457627118644\t4.728813559322034\n607.3137254901961\t3.926470588235294\n412.98387096774195\t4.951612903225806\n463.83870967741933\t3.2580645161290325\n490.2865168539326\t3.668539325842697\n386.1923076923077\t4.903846153846154\n489.42937853107344\t3.5480225988700567\n708.7075471698113\t2.556603773584906\n502.04784688995215\t4.177033492822966\n500.56774193548387\t3.4193548387096775\n374.6363636363636\t4.109090909090909\n505.27027027027026\t4.29054054054054\n684.4907975460122\t4.466257668711656\n701.1746031746031\t3.761904761904762\n903.6\t2.125\n598.027027027027\t3.581081081081081\n845.6528925619834\t3.834710743801653\n639.4179104477612\t4.373134328358209\n451.5483870967742\t4.951612903225806\n817.7358490566038\t3.2452830188679247\n380.13461538461536\t4.3076923076923075\n488.6792452830189\t4.39622641509434\n603.5988700564972\t3.6836158192090394\n658.9666666666667\t3.175\n633.1428571428571\t2.642857142857143\n441.47058823529414\t3.9215686274509802\n650.5636363636364\t3.727272727272727\n735.0530612244899\t3.906122448979592\n371.9264705882353\t4.455882352941177\n940.5121951219512\t2.768292682926829\n864.953488372093\t3.1782945736434107\n670.2680577849117\t4.426966292134831\n490.21311475409834\t4.491803278688525\n520.9216417910447\t3.6940298507462686\n388.7903225806452\t3.306451612903226\n348.9372197309417\t4.408071748878924\n572.5555555555555\t4.012345679012346\n389.1111111111111\t2.574074074074074\n681.5853658536586\t3.4390243902439024\n769.0188679245283\t3.792452830188679\n503.280701754386\t3.4210526315789473\n670.071837814015\t4.059497576024681\n402.1468531468532\t3.993006993006993\n729.9707602339181\t4.222222222222222\n608.8144329896908\t3.577319587628866\n470.94736842105266\t2.6491228070175437\n511.968085106383\t3.9680851063829787\n531.3037974683544\t3.810126582278481\n501.71666666666664\t3.4833333333333334\n554.3783783783783\t4.79054054054054\n620.3855421686746\t3.7710843373493974\n688.9288135593221\t4.159322033898305\n500.32142857142856\t3.75\n502.7105263157895\t3.75\n547.1683168316831\t3.514851485148515\n543.5571428571428\t4.728571428571429\n446.5629139072848\t4.211920529801325\n599.3220338983051\t4.322033898305085\n524.8620689655172\t3.9655172413793105\n675.8916083916084\t3.874125874125874\n516.4032258064516\t4.693548387096774\n644.8928571428571\t3.8214285714285716\n753.3984962406015\t3.8947368421052633\n628.2388059701492\t3.701492537313433\n697.4711538461538\t3.1923076923076925\n439.3642857142857\t3.442857142857143\n359.3137254901961\t4.117647058823529\n547.122641509434\t4.386792452830188\n485.1917808219178\t2.8767123287671232\n640.0535714285714\t3.0357142857142856\n531.3411764705883\t3.788235294117647\n475.7368421052632\t3.56140350877193\n638.2837837837837\t4.337837837837838\n705.0337078651686\t4.325842696629214\n555.9545454545455\t3.727272727272727\n633.9324324324324\t3.8378378378378377\n515.425925925926\t4.5092592592592595\n510.5123966942149\t4.338842975206612\n465.1309523809524\t4.229166666666667\n596.5951417004048\t3.789473684210526\n443.1607142857143\t4.151785714285714\n470.3021148036254\t3.5891238670694863\n569.4545454545455\t4.0227272727272725\n485.56310679611653\t2.2524271844660193\n488.1119402985075\t3.462686567164179\n443.9122807017544\t2.6491228070175437\n642.2857142857143\t4.936507936507937\n484.13684210526316\t4.08421052631579\n414.1011235955056\t3.853932584269663\n583.4814814814815\t3.3518518518518516\n545.9454545454546\t4.454545454545454\n849.1409395973154\t1.7919463087248322\n505.484375\t4.546875\n897.016129032258\t3.629032258064516\n468.71666666666664\t4.816666666666666\n891.9610894941634\t3.509727626459144\n444.8888888888889\t4.033333333333333\n987.2307692307693\t2.7558528428093645\n575.9722222222222\t4.444444444444445\n508.6371033360456\t3.309194467046379\n563.8348623853211\t2.944954128440367\n525.1904761904761\t3.7755102040816326\n568.3018867924528\t2.7452830188679247\n496.7402597402597\t3.155844155844156\n586.9581395348837\t3.916279069767442\n682.7678571428571\t3.0714285714285716\n600.4590163934427\t3.8688524590163933\n421.24087591240874\t3.0\n640.3076923076923\t3.8461538461538463\n627.2549019607843\t3.758169934640523\n586.0348837209302\t4.0813953488372094\n312.22972972972974\t3.9054054054054053\n670.0384615384615\t4.07051282051282\n508.2018779342723\t3.995305164319249\n370.496644295302\t4.436241610738255\n720.4810126582279\t4.177215189873418\n358.88235294117646\t4.8088235294117645\n719.3225806451613\t2.338709677419355\n435.94666666666666\t2.3466666666666667\n566.6222222222223\t3.8074074074074074\n447.85496183206106\t3.564885496183206\n521.0560747663551\t3.7476635514018692\n547.2133333333334\t3.82\n814.0379746835443\t4.0886075949367084\n387.1463414634146\t4.573170731707317\n458.7251908396947\t3.6564885496183206\n573.2380952380952\t3.642857142857143\n680.6941176470589\t3.1058823529411765\n620.6053268765133\t3.7046004842615012\n578.3333333333334\t3.0\n590.2191235059761\t3.9362549800796813\n915.8915662650602\t4.554216867469879\n463.75\t3.828125\n419.52\t4.04\n734.7592592592592\t4.229629629629629\n881.7466063348417\t3.167420814479638\n558.6615384615385\t3.1384615384615384\n403.5977011494253\t4.2298850574712645\n470.6818181818182\t4.0181818181818185\n491.95081967213116\t4.360655737704918\n546.3125\t4.583333333333333\n618.5656565656566\t3.323232323232323\n606.2636815920398\t3.791044776119403\n819.474025974026\t3.435064935064935\n807.6547619047619\t3.25\n631.5747126436781\t2.8448275862068964\n636.2459016393443\t4.622950819672131\n456.04347826086956\t3.2028985507246377\n843.3424657534247\t3.6301369863013697\n245.9090909090909\t4.909090909090909\n567.1190476190476\t3.5238095238095237\n478.6511627906977\t4.069767441860465\n386.07575757575756\t3.227272727272727\n605.6666666666666\t3.56\n558.2857142857143\t4.181818181818182\n521.2692307692307\t4.3076923076923075\n496.9076923076923\t4.092307692307692\n672.9126213592233\t2.0970873786407767\n433.561797752809\t3.955056179775281\n609.6027397260274\t3.958904109589041\n335.68639053254435\t4.159763313609467\n506.4318181818182\t3.6515151515151514\n479.24545454545455\t3.0727272727272728\n548.6301369863014\t3.589041095890411\n674.21875\t4.5390625\n407.685393258427\t4.328651685393258\n674.0943396226415\t3.7735849056603774\n546.5622775800712\t3.925266903914591\n498.5223880597015\t3.626865671641791\n428.9298245614035\t4.631578947368421\n628.1304347826087\t3.449275362318841\n382.9578947368421\t4.863157894736842\n763.9256198347107\t3.0330578512396693\n707.8095238095239\t4.492063492063492\n535.45\t3.12\n463.7106109324759\t3.8135048231511255\n731.8591549295775\t3.492957746478873\n469.6\t4.814814814814815\n491.70175438596493\t3.5526315789473686\n649.6727272727272\t4.163636363636364\n624.5066666666667\t4.08\n492.09615384615387\t3.5384615384615383\n754.4938837920489\t2.840978593272171\n553.3291139240506\t2.4683544303797467\n719.311475409836\t3.442622950819672\n461.6969696969697\t4.646464646464646\n755.9201877934272\t3.572769953051643\n412.09473684210525\t4.052631578947368\n312.0181818181818\t4.418181818181818\n352.25\t4.576923076923077\n624.0597014925373\t2.1044776119402986\n538.1931818181819\t4.068181818181818\n535.5964912280701\t4.7894736842105265\n767.8235294117648\t4.078431372549019\n582.8590909090909\t4.640909090909091\n494.25961538461536\t3.326923076923077\n367.78494623655916\t3.5806451612903225\n728.493839835729\t3.0236139630390144\n987.0338983050848\t4.0423728813559325\n639.0818181818182\t3.172727272727273\n664.6730769230769\t4.288461538461538\n713.5752688172043\t2.5913978494623655\n770.5420560747664\t2.149532710280374\n707.3464566929134\t4.173228346456693\n549.2835820895523\t4.746268656716418\n407.8412698412698\t3.380952380952381\n371.80357142857144\t4.607142857142857\n582.4673913043479\t2.1847826086956523\n710.8103448275862\t3.793103448275862\n520.7272727272727\t3.9834710743801653\n493.06584362139915\t4.288065843621399\n525.948275862069\t4.112068965517241\n655.3979591836735\t3.0476190476190474\n505.89403973509934\t2.218543046357616\n921.8846153846154\t3.4038461538461537\n1001.5844155844156\t4.246753246753247\n688.1269841269841\t2.9047619047619047\n503.87412587412587\t3.895104895104895\n789.3725490196078\t2.8627450980392157\n720.226688102894\t3.6366559485530545\n587.438596491228\t4.3052631578947365\n505.86206896551727\t4.045977011494253\n633.7960199004975\t2.537313432835821\n847.0759493670886\t3.240506329113924\n618.1140350877193\t4.131578947368421\n514.7321063394683\t3.6993865030674846\n693.8148148148148\t3.1358024691358026\n502.1653543307087\t4.3700787401574805\n513.7471264367816\t3.8045977011494254\n549.9929078014185\t3.0921985815602837\n678.6166666666667\t2.7333333333333334\n674.959595959596\t3.6565656565656566\n388.41379310344826\t4.839080459770115\n497.34586466165416\t4.496240601503759\n794.0238095238095\t2.8412698412698414\n435.96891191709847\t4.155440414507772\n652.9915254237288\t3.4491525423728815\n615.8495575221239\t4.380530973451328\n524.0727272727273\t4.963636363636364\n511.89156626506025\t3.6987951807228914\n759.2358490566038\t3.990566037735849\n516.972602739726\t3.9383561643835616\n484.72868217054264\t3.6666666666666665\n638.1037037037037\t2.8074074074074074\n500.55737704918033\t4.245901639344262\n286.8724832214765\t4.798657718120805\n783.046511627907\t4.316279069767442\n770.8961520630505\t3.9902642559109873\n406.3333333333333\t4.051282051282051\n574.6666666666666\t3.5789473684210527\n539.6\t3.9307692307692306\n387.3454545454546\t4.709090909090909\n737.5035211267606\t3.98943661971831\n584.7982954545455\t3.502840909090909\n994.8492063492064\t2.365079365079365\n587.2280701754386\t3.3333333333333335\n757.1387434554974\t4.013089005235602\n436.98571428571427\t4.042857142857143\n806.625\t3.7708333333333335\n679.9155555555556\t3.097777777777778\n766.495145631068\t4.155339805825243\n493.45205479452056\t4.63013698630137\n466.57142857142856\t3.6160714285714284\n666.7849462365591\t2.4731182795698925\n611.4615384615385\t3.9384615384615387\n503.8920187793427\t4.122065727699531\n618.8518518518518\t3.814814814814815\n579.8027210884354\t3.3197278911564627\n651.4783599088838\t3.3826879271070616\n500.20168067226894\t2.831932773109244\n523.5166666666667\t3.783333333333333\n749.8181818181819\t3.381818181818182\n644.6586206896552\t3.7517241379310344\n414.6296296296296\t4.296296296296297\n475.6216216216216\t3.962162162162162\n438.7463768115942\t4.507246376811594\n795.7283950617284\t4.009180120291232\n662.9969696969697\t3.9656565656565657\n398.90506329113924\t4.094936708860759\n427.7151515151515\t4.121212121212121\n509.04186046511626\t4.274418604651163\n527.1774193548387\t3.2096774193548385\n451.95384615384614\t4.676923076923077\n865.7115384615385\t3.9038461538461537\n444.9375\t4.34375\n622.9718309859155\t4.25\n419.4943820224719\t4.393258426966292\n397.0\t4.407407407407407\n668.3965517241379\t3.3793103448275863\n614.0852130325815\t4.190476190476191\n589.8923076923077\t4.092307692307692\n403.54545454545456\t4.584415584415584\n649.7981651376147\t4.045871559633028\n460.9157894736842\t4.2105263157894735\n610.5471698113207\t2.6226415094339623\n551.546875\t4.359375\n608.5737704918033\t3.80327868852459\n379.59090909090907\t4.878787878787879\n651.2715404699738\t4.0\n543.5266272189349\t2.8875739644970415\n626.8684210526316\t3.8026315789473686\n506.084\t4.424\n819.28\t3.8233333333333333\n959.7340425531914\t2.0106382978723403\n738.4666666666667\t3.4166666666666665\n533.8089171974523\t3.1464968152866244\n536.3490909090909\t4.614545454545454\n557.6083333333333\t4.491666666666666\n516.3194444444445\t3.9305555555555554\n610.066985645933\t4.248803827751196\n587.9264705882352\t3.6323529411764706\n535.6975308641976\t3.4074074074074074\n585.3243243243244\t4.610810810810811\n448.6324110671937\t3.9762845849802373\n761.8353174603175\t3.267857142857143\n884.2745098039215\t4.529411764705882\n626.3661971830986\t3.859154929577465\n1321.3194444444443\t2.1666666666666665\n587.6172839506173\t3.9012345679012346\n777.1276595744681\t3.1382978723404253\n499.1212121212121\t3.4545454545454546\n616.4747474747475\t3.569023569023569\n558.2853200883002\t3.8929359823399556\n527.1080459770114\t4.664367816091954\n501.8501908396947\t4.331106870229007\n426.86538461538464\t4.038461538461538\n617.7890625\t3.447265625\n459.39690721649487\t3.8092783505154637\n648.7741935483871\t4.141935483870967\n849.1948051948052\t4.740259740259741\n666.824074074074\t3.75\n624.2439024390244\t2.2439024390243905\n603.3964285714286\t3.8535714285714286\n695.976430976431\t3.9023569023569022\n435.4850746268657\t4.634328358208955\n615.936170212766\t4.226950354609929\n376.2542372881356\t3.9661016949152543\n674.445205479452\t2.9178082191780823\n887.5505617977528\t4.46067415730337\n733.709090909091\t3.9272727272727272\n330.1485714285714\t4.491428571428571\n418.3921568627451\t4.882352941176471\n584.2115384615385\t4.076923076923077\n910.3660714285714\t4.455357142857143\n430.49557522123894\t4.238938053097345\n840.2983193277311\t2.9747899159663866\n492.3359375\t4.4296875\n563.3898305084746\t4.169491525423729\n375.6666666666667\t3.508771929824561\n424.67826086956524\t4.739130434782608\n543.6476190476191\t2.7142857142857144\n1236.418918918919\t3.27027027027027\n562.3181818181819\t3.6666666666666665\n617.948275862069\t2.6551724137931036\n552.8571428571429\t4.12987012987013\n447.55172413793105\t4.482758620689655\n464.10884353741494\t3.707482993197279\n706.21875\t4.46875\n443.0\t3.6178861788617884\n629.8360655737705\t4.213114754098361\n700.9426229508197\t3.9262295081967213\n509.85135135135135\t4.243243243243243\n467.40236686390534\t3.9467455621301775\n430.41509433962267\t4.150943396226415\n404.97222222222223\t4.763888888888889\n785.5089820359282\t2.7245508982035926\n617.4807692307693\t4.1923076923076925\n504.8841201716738\t4.169527896995708\n368.8301886792453\t4.39622641509434\n591.0952380952381\t2.507936507936508\n417.1625\t3.7625\n377.7647058823529\t3.784313725490196\n690.0476851851852\t3.1643518518518516\n609.7272727272727\t4.545454545454546\n453.72972972972974\t4.337837837837838\n599.6029411764706\t3.7794117647058822\n525.6176470588235\t4.313725490196078\n437.1969696969697\t4.181818181818182\n562.746835443038\t3.481012658227848\n475.625\t4.875\n685.4905660377359\t3.1320754716981134\n504.06779661016947\t4.5423728813559325\n569.6307692307693\t4.3076923076923075\n569.7181818181818\t4.045454545454546\n754.6734693877551\t3.7346938775510203\n832.922077922078\t3.2337662337662336\n865.0888888888888\t4.1\n672.4235294117647\t2.8941176470588235\n596.9074074074074\t3.7222222222222223\n530.9913793103449\t3.7155172413793105\n715.512\t3.496\n773.2247912652537\t3.552344251766217\n459.75471698113205\t3.0943396226415096\n587.2533333333333\t2.3866666666666667\n481.95081967213116\t4.868852459016393\n422.747572815534\t3.883495145631068\n650.8888888888889\t3.425925925925926\n602.0754716981132\t4.452830188679245\n917.21875\t3.109375\n769.3565891472869\t4.596899224806202\n622.5377358490566\t3.4622641509433962\n862.527027027027\t2.324324324324324\n596.6825396825396\t2.6507936507936507\n460.7313432835821\t4.686567164179104\n791.8633802816902\t3.359154929577465\n426.03225806451616\t4.602150537634409\n657.3529411764706\t3.7492260061919507\n680.9056603773585\t2.6226415094339623\n546.7864077669902\t3.563106796116505\n696.3069306930693\t4.772277227722772\n594.0121951219512\t4.2926829268292686\n632.9543973941368\t3.9087947882736156\n414.84\t3.72\n496.05405405405406\t2.7432432432432434\n700.8688524590164\t2.6557377049180326\n417.76190476190476\t4.603174603174603\n655.241935483871\t4.080645161290323\n943.9399141630902\t1.648068669527897\n629.8428571428572\t4.2\n487.6393442622951\t4.475409836065574\n615.75\t2.5347222222222223\n621.8011049723757\t4.475138121546961\n795.472972972973\t4.037162162162162\n540.1047619047619\t3.4571428571428573\n749.0597014925373\t3.8507462686567164\n438.28985507246375\t3.3840579710144927\n463.22594142259413\t4.372384937238493\n853.7969348659004\t2.6168582375478926\n737.925\t3.7\n505.8979591836735\t4.775510204081633\n334.81081081081084\t4.851351351351352\n586.1969696969697\t3.3484848484848486\n460.3080568720379\t3.691943127962085\n731.2100396301189\t3.4227212681638046\n469.53290870488325\t4.18895966029724\n478.0049504950495\t4.212871287128713\n565.4395604395604\t2.5274725274725274\n872.4029850746268\t3.298507462686567\n922.9749103942652\t4.541218637992832\n596.0769230769231\t3.5576923076923075\n425.6930693069307\t3.603960396039604\n533.2586206896551\t4.103448275862069\n812.8659217877095\t3.6033519553072626\n406.8181818181818\t4.012987012987013\n394.40909090909093\t4.994949494949495\n764.7258064516129\t3.4193548387096775\n582.7864077669902\t3.4757281553398056\n742.3116883116883\t3.272727272727273\n590.6228813559322\t3.707627118644068\n434.07450980392156\t4.0549019607843135\n622.078947368421\t4.25\n658.0\t2.0\n397.30434782608694\t4.159420289855072\n420.24590163934425\t4.540983606557377\n579.6666666666666\t2.365079365079365\n564.1918819188191\t4.3357933579335795\n444.05960264900665\t3.8609271523178808\n522.0445026178011\t3.926701570680628\n817.9580152671756\t3.400763358778626\n551.75\t2.77\n702.0402684563759\t4.322147651006712\n454.36842105263156\t4.719298245614035\n709.4855769230769\t2.0625\n967.3116883116883\t3.207792207792208\n923.3703703703703\t3.259259259259259\n495.02985074626866\t3.343283582089552\n426.89814814814815\t4.444444444444445\n478.0\t2.703125\n442.325\t3.6\n412.8333333333333\t2.8333333333333335\n535.5421686746988\t4.018072289156627\n363.1578947368421\t4.7105263157894735\n616.6589724497394\t3.8257632166790767\n838.7537993920972\t3.702127659574468\n911.7466666666667\t3.5866666666666664\n506.31503579952266\t4.052505966587113\n728.8709677419355\t3.596774193548387\n452.1807228915663\t4.184738955823293\n695.3589743589744\t3.1794871794871793\n616.1954022988506\t3.160919540229885\n439.7310344827586\t3.703448275862069\n509.8269230769231\t3.980769230769231\n1050.2307692307693\t2.6923076923076925\n486.109375\t4.359375\n571.6813186813187\t4.857142857142857\n769.1571428571428\t3.2\n410.47058823529414\t4.102941176470588\n590.7619047619048\t2.9126984126984126\n631.0245901639345\t4.10655737704918\n691.5916666666667\t2.925\n650.1333333333333\t3.0166666666666666\n746.9117647058823\t4.485294117647059\n582.1096774193549\t4.187096774193549\n377.77941176470586\t4.411764705882353\n505.1372549019608\t3.803921568627451\n353.98039215686276\t4.470588235294118\n584.4454148471616\t2.8995633187772927\n835.4607843137255\t2.1862745098039214\n537.4059040590406\t3.2878228782287824\n504.258064516129\t2.774193548387097\n478.0215517241379\t4.547413793103448\n742.1549295774648\t3.676056338028169\n612.5\t2.736111111111111\n705.7703703703704\t4.044444444444444\n553.4310344827586\t2.689655172413793\n562.5752212389381\t4.300884955752212\n418.54545454545456\t4.2272727272727275\n558.6486486486486\t4.662162162162162\n480.5882352941176\t2.843137254901961\n646.5912408759124\t3.978102189781022\n443.3965517241379\t4.336206896551724\n570.7523809523809\t4.142857142857143\n493.3225806451613\t4.790322580645161\n709.3586956521739\t3.5434782608695654\n581.6415094339623\t3.056603773584906\n680.9074074074074\t3.1296296296296298\n536.1502590673575\t3.6891191709844557\n509.8333333333333\t3.9479166666666665\n454.09562841530055\t3.887978142076503\n910.1811594202899\t3.1739130434782608\n822.0930232558139\t3.5930232558139537\n700.5384615384615\t3.7435897435897436\n681.1653543307086\t3.1850393700787403\n708.1186440677966\t3.711864406779661\n884.2203389830509\t1.8135593220338984\n729.4610778443114\t3.715568862275449\n489.2007722007722\t4.146718146718147\n465.73118279569894\t3.3763440860215055\n650.9126984126984\t4.0396825396825395\n621.2934131736527\t2.940119760479042\n608.1935483870968\t2.903225806451613\n741.3529411764706\t2.392156862745098\n494.71505376344084\t4.397849462365591\n458.22093023255815\t2.5290697674418605\n640.6552706552707\t3.774928774928775\n619.4666666666667\t2.9833333333333334\n498.719298245614\t4.245614035087719\n524.8806366047745\t4.0344827586206895\n523.9830508474577\t3.7796610169491527\n437.8406466512702\t4.143187066974596\n550.9473684210526\t2.6710526315789473\n665.2692307692307\t3.5384615384615383\n743.8301886792453\t2.5283018867924527\n423.2089552238806\t4.276119402985074\n520.3203125\t3.1015625\n557.6769547325102\t4.090534979423868\n743.9166666666666\t3.5\n614.9359861591696\t3.8027681660899653\n472.3355263157895\t2.539473684210526\n542.6451612903226\t2.6774193548387095\n753.3739837398374\t4.463414634146342\n454.46478873239437\t3.859154929577465\n768.6031746031746\t2.8095238095238093\n527.6804733727811\t4.295857988165681\n427.2987012987013\t4.558441558441558\n656.8031088082902\t3.704663212435233\n771.8888888888889\t3.4722222222222223\n612.204081632653\t3.9489795918367347\n435.75\t3.723684210526316\n467.80392156862746\t3.4313725490196076\n525.7614678899082\t3.9357798165137616\n887.09243697479\t3.2100840336134455\n440.7719298245614\t4.421052631578948\n596.9661016949152\t2.542372881355932\n699.6862745098039\t3.9411764705882355\n634.6145833333334\t4.239583333333333\n513.4827586206897\t4.379310344827586\n485.65482233502536\t3.065989847715736\n473.4825174825175\t3.272727272727273\n457.9230769230769\t4.723076923076923\n513.5588235294117\t2.8529411764705883\n490.3783783783784\t4.716216216216216\n389.9423076923077\t4.519230769230769\n498.5566037735849\t3.6320754716981134\n701.3333333333334\t4.317460317460317\n583.5687022900763\t4.0534351145038165\n545.0084388185654\t3.8607594936708862\n488.8349514563107\t4.029126213592233\n687.6785714285714\t3.5535714285714284\n586.8392857142857\t4.517857142857143\n404.95522388059703\t3.537313432835821\n604.0\t1.2714285714285714\n660.2836879432624\t3.648936170212766\n784.8986486486486\t3.6621621621621623\n504.03367003367003\t4.434343434343434\n420.5\t3.246153846153846\n503.5308641975309\t3.617283950617284\n510.46774193548384\t3.806451612903226\n846.0\t4.046875\n390.6111111111111\t2.4555555555555557\n473.9718309859155\t3.352112676056338\n565.383141762452\t3.0306513409961684\n501.6190476190476\t4.126984126984127\n535.8461538461538\t4.673076923076923\n461.57847533632287\t4.57847533632287\n393.59550561797755\t3.7191011235955056\n537.6635514018692\t2.2990654205607477\n1173.8676470588234\t4.882352941176471\n554.9930555555555\t4.104166666666667\n508.05263157894734\t2.192982456140351\n"
+          },
+          {
+            "type": "HTML",
+            "data": "<div class=\"result-alert alert-warning\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button><strong>Output is truncated</strong> to 1000 rows. Learn more about <strong>zeppelin.spark.maxResult</strong></div>"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1549593590801_1015090561",
+      "id": "20190201-195304_933915336",
+      "dateCreated": "2019-02-08T02:39:50+0000",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500,
+      "$$hashKey": "object:291"
+    },
+    {
+      "text": "%md\nHow about \"how many restaurants have free-wifi?\" ",
+      "user": "anonymous",
+      "dateUpdated": "2019-02-08T02:39:50+0000",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>How about &ldquo;how many restaurants have free-wifi?&rdquo;</p>\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1549593590803_1525618311",
+      "id": "20190207-212516_30146608",
+      "dateCreated": "2019-02-08T02:39:50+0000",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500,
+      "$$hashKey": "object:292"
+    },
+    {
+      "text": "%sql select WiFi, name from review\n",
+      "user": "anonymous",
+      "dateUpdated": "2019-02-08T02:39:50+0000",
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/sql",
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "pieChart",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "WiFi": "string",
+                      "name": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                },
+                "pieChart": {}
+              },
+              "commonSetting": {},
+              "keys": [
+                {
+                  "name": "WiFi",
+                  "index": 0,
+                  "aggr": "sum"
+                }
+              ],
+              "groups": [],
+              "values": [
+                {
+                  "name": "name",
+                  "index": 1,
+                  "aggr": "count"
+                }
+              ]
+            },
+            "helium": {}
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "WiFi\tname\nno\tDelmonico Steakhouse\nnull\tNeo-Paws International\nnull\tMcFarling Law Group\nnull\tVolvo of Mississauga\nnull\tAndre Agassi College Preparatory Academy\nnull\tWoof Wise Dog Training\nnull\tGrandiose\nfree\tStarbucks\nfree\tMcDonald's\nnull\tThe Nail Salon & Spa\nno\tCoasta Cantina\nnull\tDaystar Boutique\nnull\tThe Thumb\nno\tWestern Coffee Shop\nnull\tTrendy Wall Designs\nfree\tStarbuzz Vegas Hookah Lounge\nno\tOven + Vine\nnull\tSelect Bakery\nnull\tSammy's Service Centres\nfree\tHigh Street Grill\nnull\tRidley's Cycle\nnull\tAsheville Veedub Volkswagon Repair & Restoration\nnull\tKelly Lash Studio\nnull\tZazu Pannee Park Regent\nfree\tQDOBA Mexican Eats\nnull\tCabane Hot-Dogs\nnull\tJacinto Insurance\nnull\tMarTucci Salon & Spa\nnull\tDeBerardinis\nnull\tAnna's Linens\nnull\tRite-Way Carpet Dyeing & Cleaning\nnull\tEl Pueblo Dry Cleaning & Tailoring\nnull\tGuardian Self Storage\nno\tPho Huong Que\nnull\tMore Than Pies\nno\tYuki Japanese & Korean Restaurant\nnull\tRad Air Complete Car Care and Tire Centers\nno\tShowmars\nnull\tHealthMarkets\nnull\tShow Coordinators\nfree\tHello Sailor\nnull\tAbicenna Skin and Laser Clinic\nnull\tDisney Store\nno\tSpring Rolls\nno\tThe Dessert House\nnull\tDunkin Donuts\nnull\tBuzz Tech Pest Control\nno\tSeoul Garden Korean Restaurant\nnull\tDesign Array Garage Door Store\nnull\tSprings Cafe by Wolfgang Puck\nno\tPam's Caribbean Kitchen\nno\tDowntown Cocktail Room\nno\tHarbour City Restaurant\nnull\tAt Home\nnull\tWalgreens\nnull\tDavid Biesinger, DPM\nnull\tO'Bagel\nnull\tMadtown Vapor\nnull\tAT&T Authorized Retailer\nnull\tElevation Solar\nnull\tNorth Olmsted Golf Club\nfree\tSt. Louis Bar & Grill\nnull\tBarbie's Pet Sitting\nnull\tThe Cut Above\nnull\tAutoNation Toyota Las Vegas\nnull\tLotus\nnull\tMatt & Nat\nnull\tUhrik Otto Dr\nnull\tBattleAxe Designs\nnull\tQ5 Communications\nnull\tStardust Building Supplies\nnull\tRudsak\nnull\tSchreibman Jewelers\nnull\tSqueeky Kleen Windows\nnull\tTop Line Defense\nnull\tBart Zimmer - Presidio Real Estate Services\nnull\tPartyZams Singing Telegrams\nnull\tPizza Pizza\nnull\tSilver Nugget Bowling Center\nnull\tBingo Room\nnull\tDivine Chocolatier\nnull\tThe Detroiter\nnull\tDistinctive Smiles\nnull\tDentistry At Greenway\nfree\tMcDonald's\nnull\tPro Transmission\nnull\tGlobal  Exotic Destinations\nnull\tUS National Whitewater Center\nnull\tBath & Body Works\nnull\tVia Panini\nnull\tSocietyJazz\nnull\tThe Parking Spot\nnull\tMo5aic\nnull\tBCBG Max Azria\nnull\tDavidson's Firearms\nnull\tFortelli Salon and Spa Mississauga\nnull\tSupercuts\nno\tVerona Chophouse\nnull\tExpert Auto Glass Repair\nnull\tForever 21\nnull\tDesert News & Gifts\nnull\tHavoline Express Lube\nnull\tKoncept Auto Works\nnull\tTino's Shoe Repair\nnull\tBest Buy\nnull\tPrice Winners\nnull\tPositive Changes Hypnosis Center\nnull\tBrault & Martineau\nnull\tMucho Burrito\nnull\tCrosstown Deli & Bagel\nnull\tFood City\nnull\tMaaco Collision Repair & Auto Painting\nnull\tSunglass Hut\nfree\tSushi Hinata\nnull\tMichelle's Antiques\nno\tArby's\nnull\tBest Buy\nnull\tDivine Design Divas Hair Salon LLC\nnull\tThe Security Film Guys\nfree\tStarbucks\nnull\tThe Arch Spa\nfree\tMetro Diner\nnull\tChase Bank\nfree\tEinstein Bagel Caribou Coffee\nnull\tFood Lion Store 1614\nnull\tChampion Motorsports\nnull\tAllure Cosmetic Laser Center\nno\tThe Keg Steakhouse & Bar\nnull\tParc Jarry\nnull\tRocket Fizz\nnull\tBest You Face and Body\nnull\tWhole Fitness by Jess\nnull\tFringe & Foundation Studio\nno\tCaribbean Marketplace Grill\nnull\tWarren's Jazz Bistro\nnull\tWicked Waxing\nnull\tPerfect Pool Service & Repair\nnull\tApache Tile Outlet\nnull\tThe Biting Edge Family Dentistry\nnull\tSmile Dessert\nnull\tOptometric Care\nnull\tRosati's Pizza\nno\tTao Garden\nnull\tAmerispec\nnull\tL'Instant\nno\tSaigon Passion Vietnamese Restaurant\nno\tCanton Dragon\nnull\tPower Nutrition\nnull\t7 Brothers Barbershop\nnull\tArt of Merlot\nnull\tLisa's Custom Sound Shop\nfree\tIHOP\nfree\tStarbucks\nnull\t935\nnull\tNail and Spa Talk\nnull\tCamwood Properties\nno\tRubio's\nnull\tLCBO\nnull\tDiamondback Billiards\nnull\tMedisys Travel Health Clinic\nnull\tKiln N Time\nnull\tPetro-Canada\nnull\tBackFit  Health + Spine\nnull\tDr. David A. Walker Oral & Maxillofacial Surgery\nfree\tThe Melting Pot - Fairview Park\nnull\tWalmart\nfree\tSecond Cup\nnull\tRoyal Auto Collision\nnull\tBaggers Bobbers & Choppers\nnull\tSitara Hookah Lounge\nnull\tA Brilliant Bronze\nnull\tBrow me Pretty\nnull\tMoss Architects\nnull\tBubble Shave Ice\nnull\tZak's Bike Shop\nno\tOne Red Door\nnull\tBugbee's DJ Plus\nnull\tBraids & Naturals\nnull\tEnterprise Rent-A-Car\nnull\tSin City Entertainment\nnull\tChocolate Swan\nnull\tSewing Nuts!\nfree\tBonanno's New York Pizzeria\nno\tGustoso Authentic Italian Pasta and Pizza\nnull\tRemington Ranch by Mark-Taylor\nnull\tComplete Yard Care\nnull\tKebaberie Yorkville\nnull\tClayMori Build And Restore\nno\tEat This!\nnull\tQueen City Dog Service\nnull\tHenderson Driveline & Axle\nnull\tChildtime of Mesa\nno\tDino's Family Restaurant\nnull\tJCPenney\nnull\tThink Chocolate\nnull\tAmerican Express Travel Agency\nfree\tMimosa Grill\nfree\tChow Mein House\nnull\tDomino's Pizza\nnull\tNature's Emporium\nnull\tTip Top Appliance Shop\nnull\tNumber One\nnull\tRetreat at McAlpine Creek\nnull\tFortune Computers\nnull\tHooper's Pub\nnull\tNevada Music Academy\nfree\tEarl of Sandwich\nnull\tSolo Liquor Store\nnull\tEnvy Nail Spa\nnull\tDunn-Edwards Paints\nnull\tKyle's Bee Removal\nno\tFor Heavens Gold Chinese Food\nnull\tGulick Bros Hair\nno\tThe Ka\nnull\tDiana Baker's Diner\nnull\tDante's Inferno Paninoteca\nnull\tSignature Shears\nnull\tV Dub Furniture\nnull\tSmithfield News\nnull\tOscar Nails & Spa\nnull\tC A Property Management\nnull\tThe Office\nnull\tCalifornia Closets - Las Vegas - South\nnull\tWoldenberg's for Men and Women\nnull\tVegas Family Vision\nnull\tTerris Consign & Design Furnishings\nnull\tFrancisco's Mexican Food\nnull\tSparklegina\nfree\tThe Clean Spin 24 Hour Laundromat\nnull\tCora\nno\tChurrasqueira Nova Esperanca\nno\tTaco Mich\nno\tJohnny Rockets\nnull\tBank of America\nno\tEl Mirador\nnull\tJanicek Mike, MD\nnull\tPaul's Automotive Service & Repair\nnull\tLa Comédie de Montréal\nnull\tClub Paradise\nfree\tAlacoque Bed & Breakfast Revolution\nnull\tVan Horn Chrysler Dodge Jeep Ram of Stoughton\npaid\tTHEcafe at THEhotel\nnull\tHair By Chelsey\nfree\tUNA Pizza + Wine\nnull\tSalon In The City\nnull\tSammy's Auto Service\nnull\tTippy Toes Nails & Spa\nnull\tAZ Quality Detail\nnull\tOrthoCarolina - Concord\nnull\tCity Cafe\nfree\tZoup!\nfree\tMulligan's Bar & Grille\nnull\tLa Cure Gourmande\nnull\tMt Lebanon Shoe Repair\nnull\tKinglyClean Carpet Service LLC\nnull\tRoss Dress for Less\nnull\tGray House Pies\nfree\tKing Tandoori\nnull\tBikesports\nnull\tFoothills Garage Door\nnull\tHot Metal Harley Davidson\nfree\tApplebee's Grill + Bar\nnull\tUniversity Group\nnull\tCircle K\nnull\tPhils Deli Express\nfree\tJollof King\nnull\tMaui Grille\nnull\t168 Market\nnull\tSalt Tacos and Tequila\nnull\tWordans\nno\tMr3s Crabpot Seafood Takeout\nnull\tTarget\nfree\t50's Diner Omelet House\nnull\tOptimum Vision and Eyecare\nnull\tBuild-A-Bike\nfree\tFunction Juicery\nnull\tWaxing The City\nnull\tABI Insurance\nno\t5 & Diner\nfree\tMeat & Potatoes\nnull\tCharlie The Clown\nnull\tBronze Buddha Glow\nnull\tPurrfect Auto Service\nno\tHama Sushi\nnull\tWestern & Mexican Center\nnull\tCircle K\nnull\tTeasers Hair Salon\nnull\tLizzy's Sweets N' Treats\nnull\tCreative Curbing & Concrete\nnull\tUniversity Walk\nnull\tTropical Treasures\nnull\tSeven Jars Products\nnull\tCenter Heights Service\nnull\tTarget\nnull\tHeatherGlen\nnull\tPeak Performance Massage\nnull\tVocelli Pizza\nnull\tEspy\nnull\tSkymark Deli\nnull\tBrannon Hair\nnull\tBella Vida\nnull\tMilio's Sandwiches\nno\tRamiro's Mexican Foods\nnull\tEly's Barber Shop\nnull\tEssence Air, LLC\nno\tSamurai Sam's\nnull\tNew Shanghai Restaurant\nfree\tCafe Medina\nnull\tCafe Bistro Lomo\nnull\tAnselmo's Pizzeria\nnull\tPoppy's Bistro and Pub\nnull\tArizona Central Credit Union\nnull\tInnovative Procedural and Surgical Center\nnull\tShurtleff Kristina, MD\nnull\tTortoise & Hare Sports\nno\tEinstein Bros Bagels\nnull\tRefine Men's Salon\nnull\tPanda Express\nfree\tDaily Press\nno\tZushi Sushi\nno\tPieology Pizzeria\nnull\tJosh Olson, MD\nno\tSushi 67\nnull\tKathys Nail And Body Care\nnull\tAmerican Apparel\nfree\tPlantone's Italian Market\nfree\tAu Pain Doré\nnull\tSport Chek Square One\nfree\tCampus Inn\nfree\tThe Coffee Gallerie\nnull\tFraiche\nnull\tPanini Pizza & Pasta\nnull\tHigley Dental Care\nnull\tNappys Hair Shop\nnull\tSalt\nnull\tSayetoli Shirt Company\nnull\tAccredited Home Inspection Services\nnull\tArizona Mattress Overstock\nnull\tLiberty Inspections Inc\nnull\tYogo Novus\nnull\tThe Halal Guys\nnull\tPopped\nno\tXaviers Casa Reynoso\nnull\tLatitude\nno\tJamba Juice\nnull\tFresh Face LV\nnull\tJiffy Lube\nnull\tOak Ridges Food Market\nnull\tNew Town Grill & Tavern\nno\tHarvest Kitchen & Lounge\nno\tChocolate Bar\nnull\tBridal Suite\nnull\tJohnson Windows & Doors\nfree\tHakka Khazana\nno\tSmashburger\nnull\tRichmond Hill Off Leash Dog Area\nnull\tJay Starks At Bell Mortgage\nfree\tCocelli Pizza\nnull\tCareer Solutions\nnull\tJos A Bank\nfree\tTim Hortons\nno\tSpoon & Fork\nnull\tBed Bath & Beyond\nnull\t4 Sons Food Stores\nnull\tU-Haul Moving & Storage at Rainbow Blvd\nnull\tGold Hill Automotive\nfree\tEl Patron Mexican Grille\nnull\tVinny's New York Seafood Bar & Cafe\nnull\tThe Nail Blvd\nnull\tDowntown Camera\nnull\tVan Chevrolet\nnull\tGroupo Capoeira Brasil\nnull\tPalm Pizza & Kabob\nnull\tSouthland Upholstery & Interiors\nnull\tThe Spinal Joint Classical Osteopathy\nnull\tThe Bar at iPic Theaters\nfree\tWendy's\nno\tBig Boys Pizza\nnull\tFormula One Imports\nno\tMarco's Pizza\nnull\tLa Perla\nnull\tPetland\nfree\tFour Star Sushi\nfree\tKatsuya\nfree\tCrazy Sushi & Crab\nnull\tLoblaws\nnull\tArizona Tile\nnull\tUniversal Windows Direct\nnull\tDavanzo Salon\nno\tHoney Bear's BBQ\nno\tKINKA IZAKAYA ORIGINAL\nnull\tMuchMusic\nnull\tVegas Pink Hummer Limo\nnull\tAZ Reef Monsters\nnull\tThe 460\nnull\tLacquer Me Up\nnull\tThe Archer\nno\tB&R Wine - Food\nnull\tThe Colour Room Salon and Spa\nnull\tGreen Valley Carpet\nnull\tJohns Francis R DMD MD At Artisan Plastic Surgery\nfree\tNomé Izakaya\nnull\tD&C Automotive\nno\tThe Lobster Royale Seafood Restaurant\nnull\tCartier\nnull\tSonoran Garage Doors\nnull\tDa' Crust Pizza and Kitchen\nnull\tFresh Maid\nfree\tShangri-La Palace\nnull\tEmpire Carpet & Draperies\nnull\tWeiss Guys Car Wash\nnull\tDentistry at Vitality Health\nnull\tPiazza Manna\nnull\tThe Sorenson Law Firm\nfree\tNamskar\nnull\tToy Town Play Center\nnull\tMiranda's Vintage Bridal\nnull\tBrentwood Health and Wellness\nnull\tCanadian Appliance Source\nnull\tPeoria Subaru\nnull\tPaladin Advanced Automotive\nfree\tKabab Masala\nfree\tTaverna Hellas\nnull\tShip My Orders\nnull\tPizza Nova\nnull\tThe Russell Shaw Group - Realty ONE Group\nno\tThe Laundry Room\nnull\tSteven A Burns, DPM  FACFAS - Footcare Physicians of Scottsdale\nnull\tThespa2u\nnull\tSalon RO5\nfree\tThe Signature Kitchen\nnull\tThai Island Vaughn Mills\nnull\tReal Properties Management Group\nnull\tKen Mitchell, NMD, RPh\nfree\tTomato\nnull\tFoothills Pediatrics\nno\tPapa Murphy's\nfree\tDublin O'Neil's\nno\tMEGA Cleaners\nnull\tAroma Waxing Clinic\nno\tNew Era Grill & Pizza\nnull\tByrd's Pub and Grill\nnull\tSubway\nnull\tThe Red Cardinal\nnull\tAvis Car Rental\nfree\tMega Tom's Burgers\nnull\tLaVida Massage\nnull\tGerry's Fast Foods\nnull\tSkinVitality Medical Clinic\nnull\tAZ Bodybuilding Personal Training\nno\tMario's South Side Saloon\nnull\tEZ Own Auto Source\nnull\tScotland Yard Dog Park\nfree\tFranklin Square Deli\nnull\tThe Spoke Easy\nnull\tMark/Anthony Hair Salon\nfree\tStarbucks\nnull\tMedical N Mobility\nnull\tUPS Customer Center\nno\tGolden Crown Chinese-American Restaurant\nnull\tAgave Pediatrics - North\nnull\tSears Outlet\nnull\tYour Dollar Store With More\nnull\tRunning Room Canada\nnull\t99 Cents Only Stores\nnull\tRanch Pharmacy Inc\nnull\tKyoung Hee Hair Salon\nnull\tL'empreinte Cooperative D'artisans\nfree\tDays Inn by Wyndham Madison NE/Windsor\nnull\tTarget\nnull\tEl Compadre Taqueria\nnull\tAddicted To Nails\nfree\tDans la Gueule du Loup\nnull\tSephora\nnull\tBadass Jack's\nnull\tDulceria La Colmena\nnull\tRoyal Palms Apartments\nfree\tStevie's Pizza\nnull\tCircle K\nnull\tMovado Company Store\nnull\tBullseye Painting\nno\tHoney Bun's Cafeteria\nnull\tAble Handyman Service\nnull\tGolf Cart Parts Company\nnull\tWal-Mart\nnull\tCool Motors Inc\nnull\tBrewers Connection\nnull\tBerger Transfer & Storage\nno\tJet's Pizza\nnull\tWine Rack\nfree\tHilton Nutrition & Wellness\nnull\tWanigan Organics\nnull\tOhio State Waterproofing\nnull\tAlyssa K Hair Design\nnull\tAbbott Pest Control\nnull\tSharps Pool Pros\nfree\tCast Iron Waffles\nfree\tEsta Esta Restaurant\nnull\tPizzelle Pastries\nnull\tCenter for Extraordinary Outcomes\nnull\tPaciugo Gelato\nnull\tSunshine Baskets & Gifts\nnull\tHasty Market\nnull\tEmerge Beauty\nno\tLemongrass Restaurant\nfree\tBellafornia Bakery Cafe & Bar\nnull\tRaceway Car Wash\nnull\tKajukenbo Arizona\nnull\tRegis Salon\nnull\tJohnny Carinos\nno\tJasper Fish & Chips\nno\tFirst Food & Bar\nnull\tMiracle Method of Phoenix West\nfree\tPanera Bread\nnull\tMadison Grove - Greystar\nnull\tCabano's Comfort Food\nnull\tKefi By Bjh\nnull\tPublic Storage\nfree\tThe Grid: Games & Growlers\nnull\tCrawl Vegas\nnull\tKelly Jorn Cook, DDS\nnull\tMadison Optometric Center\nnull\tMedcan\nnull\tChampz Barbershop and Salon\nnull\tPremier Dental\nnull\tArcher's Towing Service\nnull\tProficient Clean\nnull\tEpstein & Associates\nnull\tArby's\nnull\tLensCrafters\nnull\tSultan Express\nnull\tSalem Girls Self Serve Carwash\nnull\tDoggie Oasis Day Care & Boarding\nnull\tLot 30 Brewers\nnull\tJack's House of Flowers\nfree\tNoka Sushi\nnull\tSuncoast Showroom\nnull\tVons\nfree\tRoku\nno\tP J Marley's\nnull\tMy Cheesecake Addiction\nnull\tCuisine of India\nnull\tPalm Lane\nnull\tUnited Flooring Group\nno\tBuffet Yangtze\nnull\tAAA Action Garage Door Company\nnull\tBloor Bathurst Physiotherapy and Sports Medicine Centre\nnull\tHumberwood Animal Hospital\nfree\tVida Vida\nnull\tMister Sparky Electric\nno\tSnow Vegas Shave Ice\nnull\tLifetime Water Systems\nnull\tPlayboy Comedy Club\nnull\tHertz Rent A Car\nfree\tWok Box\nfree\tBliss Rebar\nnull\tMoondoo Chinese Garden\nnull\tJade Palace\nnull\tBirkdale Animal Hospital\nnull\tUrbinz\nnull\tExcellence Air\nnull\tMimico GO Station\nnull\tMoneytree\nnull\tCats Link\nnull\tPark Opticians\nno\tTacos El Burrito Loco\nnull\tCarefree Events\nnull\tShav-Tronics\nno\tTropical Smoothie Cafe\nnull\tFortune Nails\nnull\tJimmy John's\nnull\tDegnan Law\nnull\tJoe Foss Shooting Range\nnull\tMah Jong\nnull\tThe Home Depot\nfree\tRasa\nnull\tBrooks Brothers\nnull\tJust Sports-Arrowhead\nnull\tApple Store\nnull\tAlice Bakery\nnull\tHorizon Ridge Pediatrics\nnull\tGreen Road Pediatrics\nnull\tThe Orchard\nno\tIdeal Bar\nnull\tCARSTAR Tim's Collision\nnull\tWater and Ice Discount Superstores\nnull\tKnead Somebody Massage Therapy\nnull\tAMC Concord Mills 24\nnull\tMr Souvlaki\nnull\tMarc's\nfree\tDivine Barrel Brewing\nfree\tShowmars Government Center\nnull\tKids Dental Center\nnull\tCredit Counselling Society\nnull\tMiracle Wash Mobile Detailing & Reconditioning\nno\tBella Frutteto\nnull\tNevada Corporate Headquarters\nnull\tWells Fargo Bank\nnull\tAZ Steemer Carpet Cleaning\nnull\tDevin Hanson Photography\nnull\tBella Vita\nnull\tSmile Designers of Las Vegas\nnull\tClinical Pathology Laboratories\nfree\tRockaberry\nnull\tSpringmade Mattress Company\nno\tRawhide Steakhouse & Saloon\nfree\tHampton Inn Las Vegas/Summerlin\nnull\tNyah's Mobile Grooming\nfree\tTim Hortons\nno\tKabuki Japanese Restaurant\nno\tSaffron Fine Indian Takeout\nnull\tWhat a Bagel\nnull\tSuperPawn\nnull\tDoy Doy Restaurant\nfree\tStarbucks\nnull\tRuff Life Dog Bones\nnull\tThe UPS Store\nnull\tNettleton Shop\nfree\tTaste of India\nnull\tPiza Pizza\nnull\tDesert Hills Automotive Repair & Towing\nnull\tType 4u\nno\tCasey's Bar & Grill\nnull\tRite Aid\nnull\tAmerican Medical Solutions\nnull\tK & K Meat Shoppe\nnull\tCostco\nnull\tThe Ultimate Tree Service Inc\nnull\tChamberlin + Associates\nno\tSizzling Skillet\nnull\tArizona cleanPROS, Inc\nno\tGolden Corral\nnull\tArizona Storage Inns\nnull\tSands Hotel\nnull\tSam's Club Optical\nnull\tDefons Salon\nnull\tClark County Credit Union\nnull\tArizona Massage & Healing\nno\tDoogan's of Aurora\nno\tExtra Lounge\nfree\tQueen Creek Olive Mill Trattoria\nnull\tWag N' Wash Scottsdale\nfree\tVoila French Bistro and Wine Bar\nno\tRoaring Fork\nnull\tMyphonesbroke\nnull\tJL Smith Electric\nno\tGrey Gardens\nnull\tShirley Brass - Keller Williams Southern Nevada\nnull\tBenjarong Thai Restaurant\nnull\tTramel Law Group\nnull\tBig Reds Bed & Biscuit\nnull\tArizona Archery Club\nno\tMalay Thai Famous Cuisine\nfree\tMarkaz Grill & Shisha Lounge\nno\tJuba\nfree\tDe Mello Palheta\nnull\tThe UPS Store\nnull\tEton House Tavern\nnull\tSprint Store\nnull\tAiramedics Heating and Air Conditioning\nnull\tAges & Stages\nnull\tMovement Disorder Center Of Arizona\nnull\tLee Nails\nnull\tSnow White Laundress\nno\tSuvaiyakam Restaurant\nfree\tBell's BBQ\nnull\tBrain and Spine Center\nnull\tCamelback CrossFit\nnull\tIntegrity Garage Doors\nfree\tGoldstruck Coffee\nnull\tPioneer Landscape Centers\nno\tThe Open Cork Eatery & Lounge\nnull\tMpowered Pilates\nfree\tCars and Coffee\nnull\tLas Vegas Coffee & Roasting\nfree\tPerry Library\nnull\tBurrito Boyz\nnull\tGreen Valley Barber Shop\nnull\tPampered Hair Passionate about Hair\nnull\tLarry's Transmissions\nfree\tYo Pauly's NY Pizza\nnull\tNVpcfix Computers\nnull\tMeineke Car Care Center\nnull\tFriendly Wireless\nnull\tSubway\nnull\tKnar Jewellery\nnull\tCelebrity Tanning\nno\tEl Pollo Loco\nfree\tTunnel Espresso Bar\nno\tStreets of New York\nnull\tGoddess Brows and Microblading\nno\tKaleidoscope Juice\nnull\tPleasant Hills Villas\nnull\tAuto Doctor\nnull\tEvelyn McCorkle - Helen Adams Realty\nno\tRoadhouse\nnull\tFelicitea\nnull\tLuxury Skin\nno\tRippington's\nnull\tMadison Dog Walkers\nfree\tMcDonald's\nnull\tTokyo Massage Spa\nnull\tControl Air of Southern Nevada\nnull\tRusty Putter Lounge\nnull\tPizza Pavilion\nnull\tDesert Song Healing Arts Center\nnull\tSkin Ritual Spa\nnull\tLove Your Stairs\nfree\tNile Restaurant\nnull\tChina Gourmet\nnull\tAnytime Fitness\nnull\tExclusive Fine Cars, Inc\nnull\tMCM Studios Pittsburgh Recording Studio\nnull\tMassage Envy - Dobson\nnull\tMoney Mart\nnull\tCafé Maurizio\nnull\tKnight Motors LP\nnull\t90's Nails\nnull\tOut West General Store\nno\tDurango Taco Shop\nnull\tModern West Photobooth\nnull\tStraight Up Tanning\nfree\tComfort Suites Peoria Sports Complex\nnull\tU.S. Bank\nno\tJamba Juice\nnull\tWest USA Realty- Mesa\nnull\tMidas\nfree\tZafran Kabab Palace - Harrisburg\nnull\tShedding Clean\nnull\tCanyon Creek Toyota\nno\tYogurtland\nnull\tFry's & Fry's Marketplace\nnull\tPole Fitness Studio\nnull\tShear Reflections Hair Design\nnull\tCutty Buddiez Pet Grooming\nnull\tStand and Stair\nnull\tErie Waters Sports Bar & Grill\nnull\tCarribean Cuisine Delight\nfree\tDeSano Pizzeria Napoletana - Waverly\nnull\tNagara Yoga and Pilates\nnull\tAmeidi Nail\nnull\tGeno's Restaurant\nnull\tSchool of Rock Gilbert\nnull\tRouge River Brewing\nnull\tPoetry Jazz Cafe\nnull\tBarkin' Basin Dog Park\nnull\tIced for Life\nnull\tPerfumes 4 U\nnull\tTexaco\nnull\tWilliams & Williams\nnull\tiphixation- Dsky\nnull\tRango Honey\nnull\tPrairie Girl Bakery\nnull\tEverett\nnull\tBookman & Son Fine Jewelry\nnull\tPillar at Taviano\nfree\tGuaca & Molé\nnull\tFirst Sonoran Property Management\nfree\tAGO Norma Ridley Members' Lounge\nnull\tThe Pizza Company - Baldwin\nnull\tAllen Hui, OD\nnull\tLessons with Derek\nno\tVaradero Cuban Restaurant\nnull\tPure Power Yoga\nnull\tNatural Health Chiropractic\nnull\tVivo\nno\tSweet Tomatoes\nnull\tRubens Chocolate\nno\tIchiban Sushi\nno\tAbuela's Tacos\nnull\tThe Dapper Devil\nnull\tFloor Designs Of Nevada\nnull\tCarneceria Don Filos Market\nnull\tMarshalls\nnull\tA Better Way Divorce Service\nnull\tFuture Shop\nnull\tQ Nails & Spa\nnull\tSierra Hair\nnull\tMenards\nnull\tThe Murder Mystery Company in Charlotte\nfree\tLocal Kitchen & Winebar\nfree\tThe Great Dane\nnull\tJoshua David Fox\nnull\tHot Shot\nnull\tSally Beauty Supply\nnull\tAydin Cabi, DDS\nnull\tVashti's Hair Studio & Spa\nfree\tOscar's Pier 83\nnull\tLeatherman Golf Learning Center\nnull\tRPM Outlet\nnull\tFirst Time Vape\nnull\tWhittamore's Berry Farm\nfree\tKnights Inn Toronto Scarborough\nfree\tNoodles & Company\nnull\tSwiss Chalet Rotisserie & Grill\nnull\tFood Lion LLC\nnull\tAssured Pest\nfree\tCafe Hollander\nnull\tO'Reilly Auto Parts\nnull\tA 40 Auto Body & Paint\nnull\tAZ plus cleaning\nnull\tTri City Appliance\nnull\tSit Means Sit\nno\tBurger King\nnull\tCircle K\nnull\tA2Z Pest Control\nfree\tBoeing Aramark Cafeteria\nnull\tAZ Trusted Air\nnull\tterraFITNESS\nnull\tStallion Mountain Golf Course\nnull\tAmtrust Bank\nnull\tArizona Custom Glass Tinting\nnull\tSubway\nnull\tBella Nails\nfree\tStarving Artist\nno\tPopeye's Chicken\nnull\tWho's Next Beauty Bar\nnull\tSoup Factory\nnull\tHanh Salon & Spa\nnull\tThe T-Shirt Diner\nfree\tJack Astor's Bar & Grill\nnull\tRockland Trailers\nnull\tAsian Health Center\nnull\tArjay's Window Fashions\nnull\tTouchdown Pizza\nnull\tDarling Nails\nnull\tLJ's Pizza Restaurant\nfree\tSpoonZ Cafe\nnull\tDAO - The Asian Celebration\nnull\tPediatric Dental Care Associates\nnull\tEsu Massage Therapy\nnull\tHarvest Moon Festival\nnull\tSherwin-Williams Paint Store\nnull\tScottsdale Men's Shoppe\nfree\tThe Lodge at Grand Teton\nnull\tFreshco\nfree\tFirehouse Subs\nnull\tDesert Hills Animal Clinic\nnull\tWag-A-Way\nnull\tRadiance Med Spa\nnull\tMt Horeb Animal Hospital\nnull\tAZ Guns\nnull\tBarber Culture\nfree\tGeorgie's Diner\nnull\tB & M Automotive Services\nnull\tMason Mechanical Heating and Cooling\nno\tArby's\nnull\tOrca Fish Company\nnull\tHair-Do Salon\nnull\tMad Man Army Surplus & Hip Hop Shoe Shop\nnull\tAll Fired Up!\nnull\tBashas' \nnull\tFun Slides Carpet Skatepark and Party Center\nfree\tBest Life Nutrition\nnull\tArrowhead Pediatrics\nnull\tThe Home Depot\nno\tMidway Diner\nno\tWingstop\nnull\tTucker's Collision Center\nno\tKimanh Vietnamese Submarines\nnull\tAldi\nnull\tCost Cutters\nnull\tPFK\nnull\tEvan & Jentri Young\nnull\tU-Haul Moving & Storage of W Towne\nnull\tSt. Joseph's Hospital and Medical Center\nnull\tSafe Nest\nnull\tValley Air Conditioning\nnull\tPawn Now\nno\tBuca di Beppo Italian Restaurant\nno\tBrennan's Fish House\nnull\tEC Fades\nnull\tDarkside Games\nnull\tPrecision Time\nnull\tGuitar Center\nnull\tBachelor Vegas\nfree\tBonga Korean Restaurant\nno\tCracker Barrel Old Country Store\nnull\tXpand Realty & Property Management\nno\tBuffalo Bill Wings\nnull\tAyo Restaurant\nnull\tBig Guys Pizza\nnull\tFirenzaStone\nnull\tNitsa's Apparel\nnull\tPostNet\nfree\tMcDonald's\nnull\tJCPenney\nnull\t6 by Gee Beauty\nnull\tBistro Guru\nnull\tOff Broadway Apartments - Pinnacle\nnull\tChristian Brothers Automotive Coddle Creek\nno\tLuckenbooth Café\nfree\tAllStar Wings & Ribs\nnull\tTwin Lakes Veterinary Hospital\nnull\tSurprise Health Center\nnull\tSchoarlhütte\nno\tShore Restaurant\nnull\tThe Contender\nnull\tARCO ampm\nnull\tCWLIFE Photography\nfree\tDe La Ana European Delicatessen Store\nnull\tMcDonald's\nnull\tWeddings at Flamingo Las Vegas\nnull\tE-CIGARETTES\nnull\tLifestyle Oasis\nno\tKid Lee\nnull\tPet-A-Palooza\nnull\tJimmy John's\nnull\tShoppers Drug Mart\nno\tWingstop\nnull\tPRO BIKE+RUN\nnull\tYvonne Bakery\nfree\tBivy\nnull\tSona Chaandi\nnull\tAutobell Car Wash\nnull\tShepherd Eye Center\nnull\tSerenity Spa & Lounge\nfree\tSasaki Sushi & Bar\nnull\tClark County Pool & Lawn\nnull\tElite Bridal Shop\nnull\tPalm Dental\nnull\tFirestone Tire & Auto Centre\nnull\tDesert Garage Doors AZ\nno\tRainbow Cleaners\nnull\tHot Chocolate Run 15/5K\nnull\tCentury 21 JR Realty\nnull\tGreat Clips Hair Salon\nnull\tDreamy Draw Recreation Area\nnull\tA Desert Custom Cycles\nnull\tMartial Arts Center MAC Taekwondo\nnull\tRowe Farms\nfree\tJose Cuervo Tequileria\nfree\tCalifornia Pizza Kitchen at Southpark Mall\nnull\tEyring Movers\nnull\tJacksons Car Wash\nnull\tThe Galleria of Mt. Lebanon Mall\nno\tPapa Murphy's\nno\tThe Caribbean Queen of Patties\nfree\tRococoa\nnull\tBoston Market\nnull\tParadox Escape Room\nnull\tThe Beadery\nnull\tGreencraft Interiors\nnull\tAll Canadian Self-Storage\nno\tTiffany Shea Cleaners\nnull\tHerbology Tours\nnull\tPetSmart\nnull\tSammy's Food Mart\nnull\tWesthills Dental Centre\nno\tOrange Leaf Frozen Yogurt\nnull\tAir Conditioning and Refrigeration\nnull\tJewish Family & Children's Service\nfree\tZeppe's Tavern & Pizzeria\nnull\tThai Express\nnull\tThe Big Cheese\nfree\tSpice Restaurant\nfree\tTops N Bottoms Frozen Yogurt - Southwest\nfree\tPickle Barrel\nnull\tdavid A. hair\nnull\tBull & Finch\nnull\tSheetz\nnull\tPizza Hut\nnull\tPimento's Italian Cafe & Catering\nnull\tRed Soul Japanese Restaurant\nno\tGianni's Pizza of Cecil\nnull\tDel Taco\nnull\tRbc Royal Bank\nfree\tLegacy Golf Club Restaurant\nnull\tFaucets Galore of Nevada\nno\tMariscos Sinaloa\nnull\tDogTropolis\nnull\tDutch Bros\nnull\tSepassi's Pizzeria\nnull\tEnchanted Florist\nnull\tTerrible Herbst\nno\tCold Stone Creamery\nnull\tNuuaria\nno\tH2O Sushi & Izakaya\nfree\tBogeys Grill\nnull\tCVS\nno\tTony's & Nick's Place\nno\tPremier Cleaners & Laundry\nnull\tAmerica Mufflers\nnull\tRosedale Dry Cleaning\nnull\tAnytime Fitness\nnull\tHampton Garden Apartments by Picerne Apartments\nnull\tRoad Quake Window Tinting & electronics\nfree\tMcDonald's\nnull\tTLC Computer Solutions\nnull\tEsso\nnull\t9Round Charlotte-Cotswold\nnull\tPetSmart\nfree\tMonical's Pizza\nnull\tActive Green & Ross Tire & Auto Centre\nnull\tGoodwill Industries\nnull\tCreative Mate Design and Photo\nnull\tFruiterie Dollard\nnull\tWax Bunny\nnull\tGoldenstein Marvin D, DDS\nnull\tO'reilly Auto Parts\n"
+          },
+          {
+            "type": "HTML",
+            "data": "<div class=\"result-alert alert-warning\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button><strong>Output is truncated</strong> to 1000 rows. Learn more about <strong>zeppelin.spark.maxResult</strong></div>"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1549593590803_1344339888",
+      "id": "20190201-201535_1285189348",
+      "dateCreated": "2019-02-08T02:39:50+0000",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500,
+      "$$hashKey": "object:293"
+    }
+  ],
+  "name": "ETL and Data Viz",
+  "id": "2E385BVKX",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {
+    "md:shared_process": [],
+    "sh:shared_process": [],
+    "spark:shared_process": []
+  },
+  "config": {
+    "isZeppelinNotebookCronEnable": false,
+    "looknfeel": "default",
+    "personalizedMode": "false"
+  },
+  "info": {}
+}
